@@ -1,5 +1,5 @@
 process.on('uncaughtException', function (exception) {
-   console.log('funni error uh oh!')
+  console.log(exception)
 });
 
 const fs = require('node:fs');
@@ -7,7 +7,13 @@ const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent // Required to read message content
+    ]
+});
 
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
@@ -39,6 +45,13 @@ for (const file of eventFiles) {
 		client.on(event.name, (...args) => event.execute(...args));
 	}
 }
+
+client.on('messageCreate', message => {
+    if (message.content.toLowerCase().includes('bird')) {
+        message.react('<:bird:1214018194423947264>')
+        .catch(error => console.error("Failed to add reaction:", error));
+    }
+});
 
 client.login(token);
 
