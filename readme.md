@@ -8,4 +8,5 @@
 8. run `npm start` or `node .` to run the bot
 
 auth link for offical bot: https://discord.com/api/oauth2/authorize?client_id=1118256931040149626&permissions=137439333446&scope=bot+applications.commands
+
 (this was forked from the real bird, so idk)
