@@ -25,7 +25,7 @@ module.exports = {
         const randomHug = hugGifs[Math.floor(Math.random() * hugGifs.length)];
 
         const hugEmbed = new EmbedBuilder()
-            .setDescription(`**${interaction.user}** slaps **${userToHug}**`)
+            .setDescription(`**${interaction.user}** bites **${userToHug}**`)
             .setImage(randomHug);
 
         // Set the embed color to the user's accent color if available
