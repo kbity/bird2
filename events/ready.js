@@ -11,7 +11,7 @@ module.exports = {
 
         // Store the interval ID
         let presenceInterval = setInterval(() => {
-            client.user.setPresence({ activities: [{ name: 'OpenBird v.0.0 [fork of bird v2.2.0]' }], status: 'online' });
+            client.user.setPresence({ activities: [{ name: 'bird v2.2.1' }], status: 'online' });
         }, 1000);
 
         // Clear the interval when necessary (for example, when the bot is shutting down)
