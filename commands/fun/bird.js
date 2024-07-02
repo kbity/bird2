@@ -4,6 +4,9 @@ const fs = require('fs');
 // File path for storing inventories
 const inventoryFilePath = './inventories.json';
 
+// File path for storing birds data
+const birdsFilePath = './birds.json';
+
 // Function to load inventories from file
 function loadInventories() {
     try {
@@ -28,6 +31,17 @@ function saveInventories(inventories) {
     }
 }
 
+// Function to load JSON data from file
+function loadJsonFile(filePath) {
+    try {
+        const data = fs.readFileSync(filePath);
+        return JSON.parse(data);
+    } catch (err) {
+        console.error(`Error loading file ${filePath}:`, err);
+        return null;
+    }
+}
+
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('bird')
@@ -37,22 +51,7 @@ module.exports = {
         let inventories = loadInventories();
 
         // Array of bird emojis and their corresponding names
-        const birds = [
-            { emoji: '<:finebird:1214018194423947264>', name: 'Fine bird', weight: 1000 },
-            { emoji: '<:goodbird:1214018194423947264>', name: 'Good bird', weight: 800 },
-            { emoji: '<:rarebird:1218383448176070757>', name: 'Rare bird', weight: 500 },
-            { emoji: '<:evilbird:1218386113195147354>', name: 'Evil bird', weight: 250 },
-            { emoji: '🐦', name: 'Discord bird', weight: 220 },
-            { emoji: '<:coolbird:1214020650918871132>', name: 'Cool bird', weight: 125 },
-            { emoji: '<:cartoonbird:1218387018678272161>', name: 'Cartoon bird', weight: 75 },
-            { emoji: '<:blackandwhitebird:1218388224737677443>', name: 'Black and White bird', weight: 40 },
-            { emoji: '<:8bitbird:1218383149302677535>', name: '8-bit bird', weight: 25 },
-            { emoji: '<:goldbird:1214020841625362442>', name: 'Gold bird', weight: 15 },
-            { emoji: '<:mythicbird:1218389161942188063>', name: 'Mythical bird', weight: 8 },
-            { emoji: '<:amdbird:1218387652974346310>', name: 'AMD bird', weight: 4 },
-            { emoji: '<:realbird:1214020424233521192>', name: 'Real bird', weight: 2 },
-            { emoji: '<:mlgbird:1218385321490776146>', name: 'MLG bird', weight: 1 }
-        ];
+        const birds = loadJsonFile(birdsFilePath);
 
         // Calculate total weight
         const totalWeight = birds.reduce((acc, bird) => acc + bird.weight, 0);

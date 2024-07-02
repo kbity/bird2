@@ -4,23 +4,11 @@ const fs = require('fs');
 // File path for storing inventories
 const inventoryFilePath = './inventories.json';
 
+// File path for storing birds data
+const birdsFilePath = './birddata.json';
+
 // Define bird emojis and spawn weights
-const birdData = {
-    'fine bird': { emoji: '<:bird:1214018194423947264>', spawnWeight: 1000 },
-    'good bird': { emoji: '<:bird:1214018194423947264>', spawnWeight: 800 },
-    'rare bird': { emoji: '<:rarebird:1218383448176070757>', spawnWeight: 500 },
-    'evil bird': { emoji: '<:evilbird:1218386113195147354>', spawnWeight: 250 },
-    'discord bird': { emoji: '🐦', spawnWeight: 220 },
-    'cool bird': { emoji: '<:coolbird:1214020650918871132>', spawnWeight: 125 },
-    'cartoon bird': { emoji: '<:cartoonbird:1218387018678272161>', spawnWeight: 75 },
-    'black and white bird': { emoji: '<:blackandwhitebird:1218388224737677443>', spawnWeight: 40 },
-    '8-bit bird': { emoji: '<:8bitbird:1218383149302677535>', spawnWeight: 25 },
-    'gold bird': { emoji: '<:goldbird:1214020841625362442>', spawnWeight: 15 },
-    'mythical bird': { emoji: '<:mythicbird:1218389161942188063>', spawnWeight: 8 },
-    'AMD bird': { emoji: '<:amdbird:1218387652974346310>', spawnWeight: 4 },
-    'real bird': { emoji: '<:realbird:1214020424233521192>', spawnWeight: 2 },
-    'MLG bird': { emoji: '<:mlgbird:1218385321490776146>', spawnWeight: 1 }
-};
+const birdData = loadJsonFile(birdsFilePath);
 
 // Function to load inventories from file
 function loadInventories() {
@@ -30,6 +18,17 @@ function loadInventories() {
     } catch (err) {
         console.error('Error loading inventories:', err);
         return new Map();
+    }
+}
+
+// Function to load JSON data from file
+function loadJsonFile(filePath) {
+    try {
+        const data = fs.readFileSync(filePath);
+        return JSON.parse(data);
+    } catch (err) {
+        console.error(`Error loading file ${filePath}:`, err);
+        return null;
     }
 }
 
