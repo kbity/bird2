@@ -1,3 +1,7 @@
+process.on('uncaughtException', function (exception) {
+  console.log(exception)
+});
+
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 module.exports = {

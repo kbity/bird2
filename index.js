@@ -1,4 +1,9 @@
+process.on('uncaughtException', function (exception) {
+    console.log(exception);
+});
+
 const fs = require('fs');
+const fsp = fs.promises;
 const path = require('path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { token } = require('./config.json');
@@ -9,45 +14,45 @@ const inventoryFilePath = './inventories.json';
 const birdsFilePath = './birds.json';
 
 // Function to load JSON data from file
-function loadJsonFile(filePath) {
+async function loadJsonFile(filePath) {
     try {
-        const data = fs.readFileSync(filePath);
+        const data = await fsp.readFile(filePath, 'utf8');
         return JSON.parse(data);
     } catch (err) {
         console.error(`Error loading file ${filePath}:`, err);
-        return null;
+        return {};
     }
 }
 
 // Function to save JSON data to file
-function saveJsonFile(filePath, data) {
+async function saveJsonFile(filePath, data) {
     try {
-        fs.writeFileSync(filePath, JSON.stringify(data));
+        await fsp.writeFile(filePath, JSON.stringify(data));
     } catch (err) {
         console.error(`Error saving file ${filePath}:`, err);
     }
 }
 
 // Function to load channel data from file
-function loadChannels() {
-    const data = loadJsonFile(channelFilePath);
+async function loadChannels() {
+    const data = await loadJsonFile(channelFilePath);
     return new Map(Object.entries(data || {}));
 }
 
 // Function to save channel data to file
-function saveChannels(channels) {
-    saveJsonFile(channelFilePath, Object.fromEntries(channels));
+async function saveChannels(channels) {
+    await saveJsonFile(channelFilePath, Object.fromEntries(channels));
 }
 
 // Function to load inventories from file
-function loadInventories() {
-    const data = loadJsonFile(inventoryFilePath);
+async function loadInventories() {
+    const data = await loadJsonFile(inventoryFilePath);
     return new Map(Object.entries(data || {}));
 }
 
 // Function to save inventories to file
-function saveInventories(inventories) {
-    saveJsonFile(inventoryFilePath, Object.fromEntries(inventories));
+async function saveInventories(inventories) {
+    await saveJsonFile(inventoryFilePath, Object.fromEntries(inventories));
 }
 
 const client = new Client({
@@ -95,15 +100,15 @@ for (const file of eventFiles) {
 // Handler for 'messageCreate' event
 client.on('messageCreate', async message => {
     if (message.content.toLowerCase() === 'bird') {
-        const channels = loadChannels();
-        const inventories = loadInventories();
+        const channels = await loadChannels();
+        const inventories = await loadInventories();
 
         const channelId = message.channel.id;
         const channelData = channels.get(channelId);
 
         // Respond only if a bird is present and it hasn't been caught yet
         if (channelData && channelData.birdPresent && !channelData.hasResponded) {
-            const birds = loadJsonFile(birdsFilePath);
+            const birds = await loadJsonFile(birdsFilePath);
 
             const selectedBird = channelData.currentBird;
             const user = message.author;
@@ -112,7 +117,7 @@ client.on('messageCreate', async message => {
             const inventory = inventories.get(user.id) || {};
             inventory[selectedBird.name.toLowerCase()] = (inventory[selectedBird.name.toLowerCase()] || 0) + 1;
             inventories.set(user.id, inventory);
-            saveInventories(inventories);
+            await saveInventories(inventories);
 
             // Send message about catching the bird
             const caughtEmbed = {
@@ -120,17 +125,26 @@ client.on('messageCreate', async message => {
             };
             await message.channel.send({ embeds: [caughtEmbed] });
 
-            // Mark that the bird has been responded to
-            channels.set(channelId, { ...channelData, birdPresent: false, hasResponded: true });
-            saveChannels(channels);
+            // Calculate random spawn time between 3 and 30 minutes (in milliseconds)
+            const now = Date.now();
+            const spawnTime = now + Math.random() * (30 * 60 * 1000 - 3 * 60 * 1000) + 3 * 60 * 1000;
+
+            // Mark that the bird has been responded to and set the next spawn time
+            channels.set(channelId, { ...channelData, birdPresent: false, hasResponded: true, spawnTimestamp: spawnTime });
+            await saveChannels(channels);
         }
+    }
+
+    if (message.content.toLowerCase().includes('bird')) {
+        message.react('<:bird:1214018194423947264>')
+            .catch(error => console.error("Failed to add reaction:", error));
     }
 });
 
 // Bird spawning function
 async function spawnBirds() {
-    const channels = loadChannels();
-    const birds = loadJsonFile(birdsFilePath);
+    const channels = await loadChannels();
+    const birds = await loadJsonFile(birdsFilePath);
 
     if (!birds) {
         console.error('No birds data loaded.');
@@ -172,10 +186,8 @@ async function spawnBirds() {
 
             await channel.send({ embeds: [embed] });
 
-            // Calculate random spawn time between 3 and 30 minutes (in milliseconds)
-            const spawnTime = now + Math.random() * (30 * 60 * 1000 - 3 * 60 * 1000) + 3 * 60 * 1000;
-            channels.set(channelId, { birdPresent: true, currentBird: selectedBird, spawnTimestamp: spawnTime, hasResponded: false });
-            saveChannels(channels);
+            channels.set(channelId, { birdPresent: true, currentBird: selectedBird, hasResponded: false });
+            await saveChannels(channels);
         }
     }
 }
