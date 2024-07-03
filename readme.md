@@ -4,7 +4,7 @@
 4. (optional) go to commands/utility and edit the say-whitelist.json, this is users who can use /say without needing admin perms in the server
 5. (optional) go into commands/anime/gifs to add/edit/remove anime gifs from the ***-gifs.json files
 6. (recomended for full funcionality) to into commands/fun and edit minesweeper.js and minesweeper-help.js and replace the custom server emojis with either your own, or generic ones, in order to get commands working correctly
-7. (recomended for full funcionality) edit... birds.json and birddata.json and replace the birds with your own
+7. (recomended for full funcionality) edit... birds.json and birddata.json and replace the birds with your own, in birddata.json keep unknown bird
 8. run `node deploy-commands.js` to deploy the Commands
 9. run `npm start` or `node .` to run the bot
 
