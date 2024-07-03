@@ -62,7 +62,7 @@ module.exports = {
             const spawnTime = Date.now() + 30 * 60 * 1000;
 
             // Add the current channel to the channels object with a future spawn timestamp
-            channels[interaction.channel.id] = { nextSpawn: spawnTime };
+            channels[interaction.channel.id] = { birdPresent: false, spawnTimestamp: spawnTime };
 
             // Save the updated channels object
             saveChannels(channels);
