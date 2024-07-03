@@ -10,14 +10,16 @@
 
 auth link for offical bot: https://discord.com/api/oauth2/authorize?client_id=1118256931040149626&permissions=137439333446&scope=bot+applications.commands
 
-bird versioning scheme
-ex: 2.3.0b:
-Major - bird 2 - Bird written with Discord.js
-Minor bird v2.3.x - Line of bird versions most notable for adding automatically spawning birds and Progressbird95
-Patch - bird v2.3.0 - bird v2.3.x without the bug fixes of v2.3.1 and v2.3.2
-Minipatch - bird v2.3.0b - bird v2.3.0 without the broken version of /Progressbird95
-ex: 2.3.2b:
-Major - bird 2 - Bird written with Discord.js
-Minor bird v2.3.x - Line of bird versions most notable for adding automatically spawning birds and Progressbird95
-Patch - bird v2.3.2 - fixes major spawning bug from v2.3.1, which fixed the Progressbird95 crashing bug
-Minipatch - bird v2.3.2b - bird v2.3.2 with fixed autobird.
+bird versioning scheme\n
+ex: 2.3.0b:\n
+Major - bird 2 - Bird written with Discord.js\n
+Minor bird v2.3.x - Line of bird versions most notable for adding automatically spawning birds and Progressbird95\n
+Patch - bird v2.3.0 - bird v2.3.x without the bug fixes of v2.3.1 and v2.3.2\n
+Minipatch - bird v2.3.0b - bird v2.3.0 without the broken version of /Progressbird95\n
+
+
+ex: 2.3.2b:\n
+Major - bird 2 - Bird written with Discord.js\n
+Minor bird v2.3.x - Line of bird versions most notable for adding automatically spawning birds and Progressbird95\n
+Patch - bird v2.3.2 - fixes major spawning bug from v2.3.1, which fixed the Progressbird95 crashing bug\n
+Minipatch - bird v2.3.2b - bird v2.3.2 with fixed autobird.\n
