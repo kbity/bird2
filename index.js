@@ -27,7 +27,7 @@ async function loadJsonFile(filePath) {
 // Function to save JSON data to file
 async function saveJsonFile(filePath, data) {
     try {
-        await fsp.writeFile(filePath, JSON.stringify(data));
+        await fsp.writeFile(filePath, JSON.stringify(data, null, 2));
     } catch (err) {
         console.error(`Error saving file ${filePath}:`, err);
     }
@@ -106,12 +106,17 @@ client.on('messageCreate', async message => {
         const channelId = message.channel.id;
         const channelData = channels.get(channelId);
 
-        // Respond only if a bird is present and it hasn't been caught yet
-        if (channelData && channelData.birdPresent && !channelData.hasResponded) {
+        // Respond only if a bird is present
+        if (channelData && channelData.birdPresent) {
             const birds = await loadJsonFile(birdsFilePath);
 
-            const selectedBird = channelData.currentBird;
+            let selectedBird = channelData.currentBird;
             const user = message.author;
+
+            // Check if the current bird is missing or not in birds data
+            if (!selectedBird || !birds.find(bird => bird.name === selectedBird.name)) {
+                selectedBird = { name: 'Unknown Bird', emoji: '❓' };
+            }
 
             // Update user inventory
             const inventory = inventories.get(user.id) || {};
@@ -129,8 +134,8 @@ client.on('messageCreate', async message => {
             const now = Date.now();
             const spawnTime = now + Math.random() * (30 * 60 * 1000 - 3 * 60 * 1000) + 3 * 60 * 1000;
 
-            // Mark that the bird has been responded to and set the next spawn time
-            channels.set(channelId, { ...channelData, birdPresent: false, hasResponded: true, spawnTimestamp: spawnTime });
+            // Mark that the bird has been caught and set the next spawn time
+            channels.set(channelId, { birdPresent: false, spawnTimestamp: spawnTime });
             await saveChannels(channels);
         }
     }
@@ -152,19 +157,24 @@ async function spawnBirds() {
     }
 
     const now = Date.now();
+    let channelsUpdated = false;
 
     for (const [channelId, data] of channels.entries()) {
-        const spawnTimestamp = data.spawnTimestamp || 0;
+        // Check if the bot has access to the channel
+        const channel = await client.channels.fetch(channelId).catch(err => {
+            console.error(`Error fetching channel ${channelId}:`, err);
+            return null;
+        });
+
+        if (!channel) {
+            // Remove channel entry if the bot doesn't have access
+            channels.delete(channelId);
+            channelsUpdated = true;
+            continue;
+        }
 
         // Check if no bird is present and it's time to spawn a new one
-        if (!data.birdPresent && spawnTimestamp <= now) {
-            const channel = await client.channels.fetch(channelId).catch(err => {
-                console.error(`Error fetching channel ${channelId}:`, err);
-                return null;
-            });
-
-            if (!channel) continue;
-
+        if (!data.birdPresent && data.spawnTimestamp <= now) {
             const totalWeight = birds.reduce((acc, bird) => acc + bird.weight, 0);
             let randomNum = Math.floor(Math.random() * totalWeight);
             let selectedBird;
@@ -186,9 +196,19 @@ async function spawnBirds() {
 
             await channel.send({ embeds: [embed] });
 
-            channels.set(channelId, { birdPresent: true, currentBird: selectedBird, hasResponded: false });
-            await saveChannels(channels);
+            channels.set(channelId, { birdPresent: true, currentBird: selectedBird });
+            channelsUpdated = true;
+        } else if (!data.birdPresent && data.currentBird) {
+            // Remove currentBird if birdPresent is false
+            delete data.currentBird;
+            channels.set(channelId, data);
+            channelsUpdated = true;
         }
+    }
+
+    // Save channels data only if there were updates
+    if (channelsUpdated) {
+        await saveChannels(channels);
     }
 }
 
