@@ -107,7 +107,7 @@ client.on('messageCreate', async message => {
         const channelData = channels.get(channelId);
 
         // Respond only if a bird is present and the message is the first "bird" message after the latest spawned bird
-        if (channelData && channelData.birdPresent && !message.reactions.cache.get('🐦')) {
+        if (channelData && channelData.birdPresent && !message.reactions.cache.get('<:true:1165438896469975130>')) {
             const birds = await loadJsonFile(birdsFilePath);
 
             let selectedBird = channelData.currentBird;
