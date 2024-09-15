@@ -1,37 +1,4 @@
 {
-  "tags": [
-    {
-      "name": "test",
-      "content": "testing 123",
-      "owner": "422195092225261568"
-    },
-    {
-      "name": "testing",
-      "content": "testing 1234567890",
-      "owner": "422195092225261568"
-    },
-    {
-      "name": "laytay",
-      "content": "<@760996754283298848>",
-      "owner": "422195092225261568"
-    },
-    {
-      "name": "progressbar95",
-      "content": "https://media.discordapp.net/attachments/990334317337120808/1283833783472099348/preview.png?ex=66e711e2&is=66e5c062&hm=261b177b8231408aed4d7d7eb37d78e389bebd7f3e8b49810bf74b2d5ca99baa&",
-      "owner": "710621353128099901"
-    },
-    {
-      "name": "inject",
-      "content": "js:{const channel = interaction.client.channels.cache.get('1257532796390346752'); if (channel) { channel.send(\"@Markiplier i am going to buy 54 <:bird:1214018194423947264> in btc\"); } else { console.log('Channel not found'); }}",
-      "owner": "798072830595301406"
-    },
-    {
-      "name": "mari",
-      "content": "<@798072830595301406>",
-      "owner": "798072830595301406"
-    }
-  ],
-  "blockedUsers": [
-    "715544859863285812"
-  ]
+    "tags": [],
+    "blockedUsers": []
 }
