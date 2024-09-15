@@ -2,13 +2,14 @@
 
 1. replace the dummy token and application/client ID with the bot token and application/client ID in config.json
 2. run `npm install` to download needed libraries and packages
-3. edit config.json and add in the bot token and client/Application ID, also the UserID of the bot
-4. (optional) go to commands/utility and edit the say-whitelist.json, this is users who can use /say without needing admin perms in the server
-5. (optional) go into commands/anime/gifs to add/edit/remove anime gifs from the ***-gifs.json files
-6. (recomended for full funcionality) to into commands/fun and edit minesweeper.js and minesweeper-help.js and replace the custom server emojis with either your own, or generic ones, in order to get commands working correctly
-7. (recomended for full funcionality) edit... birds.json and birddata.json and replace the birds with your own, in birddata.json keep unknown bird
-8. run `node deploy-commands.js` to deploy the Commands
-9. run `npm start` or `node .` to run the bot
+3. (recomended for full funcionality) go to commands/utility and edit tags.js, replacing admin with your own user ID
+4. (recomended for full funcionality) to into commands/fun and edit minesweeper.js and minesweeper-help.js and replace the custom server emojis with either your own, or generic ones, in order to get commands working correctly
+5. (recomended for full funcionality) edit birds.json and birddata.json and replace the birds with your own or at least change the emojis, in birddata.json keep unknown bird
+6. (recomended for full funcionality) go to commands/utility and edit the eval-whitelist.json, this is users who can use /eval
+7. (optional) go to commands/utility and edit the say-whitelist.json, this is users who can use /say without needing admin perms in the server
+8. (optional) go into commands/anime/gifs to add/edit/remove anime gifs from the ***-gifs.json files
+9. run `node deploy-commands.js` to deploy the Commands
+10. run `npm start` or `node .` to run the bot
 
 auth link for offical bot: https://discord.com/api/oauth2/authorize?client_id=1118256931040149626&permissions=137439333446&scope=bot+applications.commands
 
@@ -37,7 +38,6 @@ Major - bird 2 - Bird written with Discord.js<br>
 Minor - bird v2.3.x - Line of bird versions most notable for adding automatically spawning birds and Progressbird95<br>
 Patch - bird v2.3.2 - fixes major spawning bug from v2.3.1, which fixed the Progressbird95 crashing bug<br>
 Minipatch - bird v2.3.2b - bird v2.3.2 with fixed autobird.
-
 
 
 

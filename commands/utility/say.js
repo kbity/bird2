@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
 const whitelist = require('./say-whitelist.json');
 
 module.exports = {
@@ -12,21 +12,32 @@ module.exports = {
 	async execute(interaction) {
 		const message = interaction.options.getString('message');
 		const member = interaction.member;
+		const user = interaction.user;
 
-		// Check if user is on the whitelist or is a server admin
-		if (
-			whitelist.includes(member.user.id) ||
-			member.permissions.has('ADMINISTRATOR')
-		) {
+		// Check if the command is being used in a DM
+		if (!interaction.guild) {
+			// If in DMs, allow the command without any permission check
 			await interaction.reply({ content: `You said: ${message}`, ephemeral: true });
 
-			// Send the message in the channel
-			await interaction.channel.send(message);
+			// Ensure interaction.channel exists before sending the message
+			await interaction.user.send(message);
 		} else {
-			await interaction.reply({
-				content: 'You do not have permission to use this command.',
-				ephemeral: true,
-			});
+			// In a guild, check if the user is whitelisted or has Administrator permission
+			if (
+				whitelist.includes(user.id) ||
+				member.permissions.has(PermissionsBitField.Flags.Administrator)
+			) {
+				await interaction.reply({ content: `You said: ${message}`, ephemeral: true });
+
+				// Send the message in the channel
+				await interaction.channel.send(message);
+			} else {
+				// User doesn't have permission
+				await interaction.reply({
+					content: 'You do not have permission to use this command.',
+					ephemeral: true,
+				});
+			}
 		}
 	},
 };

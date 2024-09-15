@@ -106,8 +106,8 @@ client.on('messageCreate', async message => {
         const channelId = message.channel.id;
         const channelData = channels.get(channelId);
 
-        // Respond only if a bird is present
-        if (channelData && channelData.birdPresent) {
+        // Respond only if a bird is present and the message is the first "bird" message after the latest spawned bird
+        if (channelData && channelData.birdPresent && !message.reactions.cache.get('🐦')) {
             const birds = await loadJsonFile(birdsFilePath);
 
             let selectedBird = channelData.currentBird;
@@ -137,6 +137,10 @@ client.on('messageCreate', async message => {
             // Mark that the bird has been caught and set the next spawn time
             channels.set(channelId, { birdPresent: false, spawnTimestamp: spawnTime });
             await saveChannels(channels);
+
+            // React to the message with a true
+            message.react('<:true:1165438896469975130>')
+                .catch(error => console.error("Failed to add reaction:", error));
         }
     }
 
@@ -166,15 +170,19 @@ async function spawnBirds() {
             return null;
         });
 
-        if (!channel) {
-            // Remove channel entry if the bot doesn't have access
-            channels.delete(channelId);
-            channelsUpdated = true;
+        if (!channel) continue; // Skip if channel fetch fails
+
+        // Skip channels where a bird is already present
+        if (data.birdPresent) {
+            console.log(`Bird already present in channel ${channelId}, skipping...`);
             continue;
         }
 
-        // Check if no bird is present and it's time to spawn a new one
-        if (!data.birdPresent && data.spawnTimestamp <= now) {
+        // Check if it's time to spawn a new bird
+        if (data.spawnTimestamp <= now) {
+            console.log(`Spawning new bird in channel ${channelId}...`);
+
+            // Randomly select a bird based on weight
             const totalWeight = birds.reduce((acc, bird) => acc + bird.weight, 0);
             let randomNum = Math.floor(Math.random() * totalWeight);
             let selectedBird;
@@ -186,6 +194,7 @@ async function spawnBirds() {
                 }
             }
 
+            // Create and send the embed message for bird appearance
             const embed = {
                 title: `${selectedBird.emoji} ${selectedBird.name} has appeared!`,
                 description: 'Type "bird" to catch it!',
@@ -194,15 +203,20 @@ async function spawnBirds() {
                 }
             };
 
-            await channel.send({ embeds: [embed] });
+            try {
+                await channel.send({ embeds: [embed] });
 
-            channels.set(channelId, { birdPresent: true, currentBird: selectedBird });
-            channelsUpdated = true;
-        } else if (!data.birdPresent && data.currentBird) {
-            // Remove currentBird if birdPresent is false
-            delete data.currentBird;
-            channels.set(channelId, data);
-            channelsUpdated = true;
+                // Update the channel data to reflect the bird spawn
+                channels.set(channelId, {
+                    birdPresent: true,
+                    currentBird: selectedBird,
+                    spawnTimestamp: now + Math.random() * (30 * 60 * 1000 - 3 * 60 * 1000) + 3 * 60 * 1000 // Random spawn time for next bird
+                });
+
+                channelsUpdated = true;
+            } catch (error) {
+                console.error(`Error sending message to channel ${channelId}:`, error);
+            }
         }
     }
 
@@ -212,8 +226,9 @@ async function spawnBirds() {
     }
 }
 
-// Set an interval to check and spawn birds every second
-setInterval(spawnBirds, 1000);
+// Increase interval to reduce potential spamming due to lag
+// Set interval to 10 seconds (10000ms) instead of 1 second
+setInterval(spawnBirds, 10000);
 
 // Login the client with token
 client.login(token);
