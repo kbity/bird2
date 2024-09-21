@@ -2,6 +2,9 @@ process.on('uncaughtException', function (exception) {
     console.log(exception);
 });
 
+const { fetch, setGlobalDispatcher, Agent } = require ('undici')
+setGlobalDispatcher(new Agent({ connect: { timeout: 60_000 } }) )
+
 const fs = require('fs');
 const fsp = fs.promises;
 const path = require('path');
@@ -150,6 +153,14 @@ client.on('messageCreate', async message => {
     }
 });
 
+client.on('messageCreate', (message) => {
+  if (message.author.bot) return;
+
+  if (message.content.toLowerCase() === 'mari!sex') {
+    message.channel.send("👁️ **attention!** 👁️\n👺 {you have} **insulted the president of chicken coop** 👺\n🚶‍♀️ {please} **leave the premises at once** 🚶‍♂️\n💩👹👾 {or face the might of our nuclear arsenal} 💩👹👾");
+  }
+});
+
 // Bird spawning function
 async function spawnBirds() {
     const channels = await loadChannels();
@@ -228,7 +239,8 @@ async function spawnBirds() {
 
 // Increase interval to reduce potential spamming due to lag
 // Set interval to 10 seconds (10000ms) instead of 1 second
-setInterval(spawnBirds, 10000);
+//setInterval(spawnBirds, 10000);
+setInterval(spawnBirds, 3000);
 
 // Login the client with token
 client.login(token);
