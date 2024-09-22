@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 
-const CURRENT_VERSION = 'v2.3.3d';
+const CURRENT_VERSION = 'v2.3.3e';
 const REPO_URL = 'https://api.github.com/repos/kbity/bird2/releases/latest';
 
 module.exports = {
@@ -18,18 +18,21 @@ module.exports = {
             }
 
             const latestRelease = await response.json();
-            const latestVersion = latestRelease.tag_name; // Assume tag_name follows the format "bird231"
+            const latestVersion = latestRelease.tag_name; // Assume tag_name follows the format "bird233"
 
             const currentVersionNumber = CURRENT_VERSION.match(/\d+/g).join('');
             const latestVersionNumber = latestVersion.match(/\d+/g).join('');
 
+            const currentMicropatch = CURRENT_VERSION.match(/[a-z]$/i) ? CURRENT_VERSION.match(/[a-z]$/i)[0] : 'a';
+            const latestMicropatch = latestVersion.match(/[a-z]$/i) ? latestVersion.match(/[a-z]$/i)[0] : 'a';
+
             let title, description, color;
 
-            if (currentVersionNumber === latestVersionNumber) {
+            if (currentVersionNumber === latestVersionNumber && currentMicropatch === latestMicropatch) {
                 title = `bird ${CURRENT_VERSION}`;
                 description = 'This instance is up to date!';
                 color = 0x00FF00; // GREEN
-            } else if (currentVersionNumber < latestVersionNumber) {
+            } else if (currentVersionNumber < latestVersionNumber || (currentVersionNumber === latestVersionNumber && currentMicropatch < latestMicropatch)) {
                 title = `bird ${CURRENT_VERSION}`;
                 description = `This instance is outdated!\nThe latest version is ${latestRelease.name}.\nCheck for updates: https://github.com/kbity/bird2`;
                 color = 0xFF0000; // RED
@@ -60,3 +63,4 @@ module.exports = {
         }
     },
 };
+

@@ -5,6 +5,8 @@ module.exports = {
     .setName('minesweeper')
     .setDescription('Play Minesweeper'),
   async execute(interaction) {
+    // Respond to the command with a fake minesweeper gui
+    await interaction.reply('# `010`<:sweepergray:1287184299044503685><:sweepergray:1287184299044503685><:sweeperguy:1287184044311711844><:sweepergray:1287184299044503685><:sweepergray:1287184299044503685>`000`');
     // Generate the Minesweeper board
     const minesweeperBoard = generateMinesweeperBoard();
     // Convert the board to Discord emojis wrapped in spoiler tags
@@ -16,11 +18,11 @@ module.exports = {
     const halfIndex = Math.ceil(rows.length / 2);
     const firstHalf = rows.slice(0, halfIndex).join('\n');
     const secondHalf = rows.slice(halfIndex).join('\n');
-    // Send the first half as a reply to the command
-    await interaction.reply(firstHalf);
-    // Send the second half as a normal message
+    // Send the first half as a normal message
     const channelId = interaction.channelId; // Get the channel ID where the command was executed
     const channel = await interaction.client.channels.fetch(channelId);
+    const firstHalfMessage = await channel.send(firstHalf);
+    // Send the second half as a normal message
     const secondHalfMessage = await channel.send(secondHalf);
     // React to the second half message
     await secondHalfMessage.react('<:f_:1139350834778480680>');
@@ -86,7 +88,6 @@ function generateMinesweeperBoard() {
 }
 
 // Function to convert board to Discord emojis
-// Function to convert board to Discord emojis
 function convertToDiscordEmojis(board) {
   const emojis = [
     '||<:__:1139345030612537375>||', // 0
@@ -111,3 +112,4 @@ function convertToDiscordEmojis(board) {
 
   return discordBoard;
 }
+
