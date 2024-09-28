@@ -23,4 +23,5 @@ module.exports = {
 
 		await interaction.reply(selectedEmoji);
 	},
+        userApp: true, // Flag to enable adding user app mode
 };
