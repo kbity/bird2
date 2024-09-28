@@ -7,7 +7,7 @@ class AchievementHandler {
     this.userAchievements = JSON.parse(fs.readFileSync('achdb.json'));
   }
 
-  async grantAchievement(userId, achievementId, context, username = null, overrideUsername = null) {
+  grantAchievement(userId, achievementId, context, username = null, overrideUsername = null) {
     // Reload the user achievements from the file
     this.userAchievements = JSON.parse(fs.readFileSync('achdb.json'));
 
@@ -32,40 +32,33 @@ class AchievementHandler {
           .setFooter({ text: `Unlocked by ${overrideUsername || username || (context.author ? context.author.username : context.user.username)}` })
           .setTimestamp();
 
-        await this.followUpWithRetry(context, embed);
+        if (context.channel) {
+          if (!context.replied && !context.deferred) {
+            context.reply({ embeds: [embed] });
+          } else {
+            context.followUp({ embeds: [embed] });
+          }
+        } else if (context.reply) {
+          if (!context.replied && !context.deferred) {
+            context.reply({ embeds: [embed] });
+          } else {
+            context.followUp({ embeds: [embed] });
+          }
+        } else {
+          // Check if the bot is in a server
+          if (context.guild) {
+            context.channel.send({ embeds: [embed] });
+          } else {
+            // Send a DM to the user
+            context.user.send({ embeds: [embed] });
+          }
+        }
       }
 
       return true; // Achievement granted
     }
 
     return false; // Achievement already obtained
-  }
-
-  async followUpWithRetry(context, embed, retries = 3) {
-    for (let attempt = 0; attempt < retries; attempt++) {
-      try {
-        if (context.channel) {
-          await context.followUp({ embeds: [embed] });
-        } else if (context.reply) {
-          await context.followUp({ embeds: [embed] });
-        } else {
-          // Check if the bot is in a server
-          if (context.guild) {
-            await context.channel.send({ embeds: [embed] });
-          } else {
-            // Send a DM to the user
-            await context.user.send({ embeds: [embed] });
-          }
-        }
-        break; // Exit loop if successful
-      } catch (error) {
-        if (error.name === 'InteractionNotReplied') {
-          await new Promise(resolve => setTimeout(resolve, 5000)); // Wait for 5 second before retrying
-        } else {
-          throw error; // Re-throw if it's a different error
-        }
-      }
-    }
   }
 
   getUserAchievements(userId) {
