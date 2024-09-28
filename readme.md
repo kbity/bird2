@@ -2,10 +2,10 @@
 
 1. replace the dummy token and application/client ID with the bot token and application/client ID in config.json
 2. run `npm install` to download needed libraries and packages
-3. (recomended for full funcionality) go to commands/utility and edit tags.js, replacing admin with your own user ID
-4. (recomended for full funcionality) to into commands/fun and edit minesweeper.js and minesweeper-help.js and replace the custom server emojis with either your own, or generic ones, in order to get commands working correctly
-5. (recomended for full funcionality) edit birds.json and birddata.json and replace the birds with your own or at least change the emojis, in birddata.json keep unknown bird
-6. (recomended for full funcionality) go to commands/utility and edit the eval-whitelist.json, this is users who can use /eval
+3. go to commands/utility and edit tags.js, replacing admin with your own user ID
+4. to into config.json to set the emojis to generic ones or custom ones, do the same for achs.json.
+5. edit birds.json and birddata.json and replace the birds with your own or at least change the emojis, in birddata.json keep unknown bird
+6. go to commands/utility and edit the eval-whitelist.json, this is users who can use /eval
 7. (optional) go to commands/utility and edit the say-whitelist.json, this is users who can use /say without needing admin perms in the server
 8. (optional) go into commands/anime/gifs to add/edit/remove anime gifs from the ***-gifs.json files
 9. run `node deploy-commands.js` to deploy the Commands
