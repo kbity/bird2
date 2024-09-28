@@ -14,5 +14,6 @@ module.exports = {
 
         await interaction.reply(`Avatar of ${user.username}: ${avatarURL}`);
     },
+    userApp: true, // Flag to enable adding user app mode
 };
 

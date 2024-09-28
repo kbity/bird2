@@ -7,5 +7,6 @@ module.exports = {
 	async execute(interaction) {
 		await interaction.reply('Pong!');
 	},
+    userApp: true, // Flag to enable adding user app mode
 };
 

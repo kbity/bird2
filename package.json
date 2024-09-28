@@ -1,15 +1,16 @@
 {
   "name": "bird2",
-  "version": "2.3.3",
+  "version": "2.4.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node ."
+    "start": "node .",
+    "cmd": "node deploy-commands.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^14.14.1",
+    "discord.js": "^14.16.2",
     "node-fetch": "^3.3.2"
   }
 }

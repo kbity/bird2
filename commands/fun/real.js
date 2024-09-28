@@ -7,5 +7,6 @@ module.exports = {
 	async execute(interaction) {
 		await interaction.reply('https://i.imgur.com/4OEHzSz.png');
 	},
+    userApp: true, // Flag to enable adding user app mode
 };
 

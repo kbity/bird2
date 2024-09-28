@@ -7,5 +7,6 @@ module.exports = {
 	async execute(interaction) {
 		await interaction.reply("Vote here if you'd like\nhttps://top.gg/bot/1118256931040149626");
 	},
+    userApp: true, // Flag to enable adding user app mode
 };
 

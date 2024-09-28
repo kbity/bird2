@@ -52,6 +52,13 @@ module.exports = {
         const channels = loadChannels();
 
         if (subcommand === 'add') {
+            // Check if the server already has 3 or more bird channels
+            const birdChannelsCount = Object.keys(channels).length;
+            if (birdChannelsCount >= 3) {
+                await interaction.reply('This server already has 3 channels with automatic bird spawns enabled. You cannot add more.');
+                return;
+            }
+
             // Check if the channel is already set for auto bird spawns
             if (channels[interaction.channel.id]) {
                 await interaction.reply('Automatic bird spawns are already enabled in this channel.');

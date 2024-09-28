@@ -145,5 +145,6 @@ module.exports = {
                 return interaction.reply({ content: 'Invalid subcommand.', allowedMentions: { parse: [] } });
         }
     },
+    userApp: true, // Flag to enable adding user app mode
 };
 

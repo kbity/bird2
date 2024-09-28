@@ -1,4 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
+const config = require('../../config.json');
+const AchievementHandler = require('../../achievementHandler');
+const achHandler = new AchievementHandler();
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -6,7 +9,7 @@ module.exports = {
     .setDescription('Play Minesweeper'),
   async execute(interaction) {
     // Respond to the command with a fake minesweeper gui
-    await interaction.reply('# `010`<:sweepergray:1287184299044503685><:sweepergray:1287184299044503685><:sweeperguy:1287184044311711844><:sweepergray:1287184299044503685><:sweepergray:1287184299044503685>`000`');
+    await interaction.reply(`# \`010\`${config.emojis.gray}${config.emojis.gray}${config.emojis.guy}${config.emojis.gray}${config.emojis.gray}\`000\``);
     // Generate the Minesweeper board
     const minesweeperBoard = generateMinesweeperBoard();
     // Convert the board to Discord emojis wrapped in spoiler tags
@@ -25,8 +28,10 @@ module.exports = {
     // Send the second half as a normal message
     const secondHalfMessage = await channel.send(secondHalf);
     // React to the second half message
-    await secondHalfMessage.react('<:f_:1139350834778480680>');
-    await secondHalfMessage.react('<:l_:1139351570522329240>');
+    await secondHalfMessage.react(config.emojis.flag);
+    await secondHalfMessage.react(config.emojis.loss);
+    const userId = interaction.user.id;
+    const achievementGranted = achHandler.grantAchievement(userId, 8, interaction);
   },
 };
 
@@ -89,11 +94,7 @@ function generateMinesweeperBoard() {
 
 // Function to convert board to Discord emojis
 function convertToDiscordEmojis(board) {
-  const emojis = [
-    '||<:__:1139345030612537375>||', // 0
-    '||<:1_:1139344548083019836>||', '||<:2_:1139345260019974214>||', '||<:3_:1139350629672833114>||', '||<:4_:1139351457112535122>||', '||<:5_:1139352253178843218>||', '||<:6_:1139352702216851518>||', '||<:7_:1139352704091705414>||', '||<:8_:1139352255485718678>||' // 1-8
-  ];
-  const mineEmoji = '||<:x_:1139345434054242344>||';
+  const emojis = config.emojis;
   const discordBoard = [];
 
   for (let i = 0; i < board.length; i++) {
@@ -102,7 +103,7 @@ function convertToDiscordEmojis(board) {
     for (let j = 0; j < row.length; j++) {
       const cell = row[j];
       if (cell === 'M') {
-        discordRow += mineEmoji;
+        discordRow += emojis.mine;
       } else {
         discordRow += emojis[cell];
       }

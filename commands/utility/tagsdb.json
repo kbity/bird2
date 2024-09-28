@@ -1,4 +1,10 @@
 {
-    "tags": [],
-    "blockedUsers": []
+  "tags": [
+    {
+      "name": "guilding",
+      "content": "tags in pbcord??",
+      "owner": "798072830595301406"
+    }
+  ],
+  "blockedUsers": []
 }

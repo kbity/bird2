@@ -3,6 +3,9 @@ process.on('uncaughtException', function (exception) {
 });
 
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const config = require('../../config.json');
+const AchievementHandler = require('../../achievementHandler');
+const achHandler = new AchievementHandler();
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,10 +13,9 @@ module.exports = {
         .setDescription('Progressbar95 in discord, kind of'),
     async execute(interaction) {
         // Initialize game state for each command execution
-        let bar = new Array(10).fill('<:DataGray:1257582417384833127>');
+        let bar = new Array(10).fill(config.emojis.pbgray);
         let segmentList = [];
         const maxSegments = 5;
-        // const segmentEmojis = ['<:DataCorrupt:1257582133833236521>', '<:DataBlue:1257581952907612160>', '<:DataError:1257582212690350112>', '<:DataGray:1257582417384833127>', '<:DataNegitive:1257582418307842069>', '<:DataWin:1257582905530777620> ', '<:DataBonus:1257582047174590527>', '<a:DataRandom:1257582707815350364>']; // New segments added
         const commandUserId = interaction.user.id; // Store the ID of the user who initiated the command
 
 const manageSegmentList = async () => {
@@ -23,14 +25,14 @@ const manageSegmentList = async () => {
 
     // Define the weighted segments based on the desired spawn rates
     const weightedSegments = [
-        ...Array(25).fill('<:DataBlue:1257581952907612160>'),       // Blue - 25%
-        ...Array(18).fill('<:DataCorrupt:1257582133833236521>'),     // Orange - 18%
-        ...Array(13).fill('<:DataError:1257582212690350112>'),        // Red - 13%
-        ...Array(13).fill('<a:DataRandom:1257582707815350364>'),          // Random - 13%
-        ...Array(12).fill('<:DataNegitive:1257582418307842069>'),     // Pink - 12%
-        ...Array(12).fill('<:DataGray:1257582417384833127>'),// Grey - 12%
-        ...Array(10).fill('<:DataBonus:1257582047174590527>'),       // Light Blue - 10%
-        ...Array(1).fill('<:DataWin:1257582905530777620> ')        // Green - 1%
+        ...Array(25).fill(config.emojis.blue),       // Blue - 25%
+        ...Array(18).fill(config.emojis.orange),     // Orange - 18%
+        ...Array(13).fill(config.emojis.red),        // Red - 13%
+        ...Array(13).fill(config.emojis.rand),          // Random - 13%
+        ...Array(12).fill(config.emojis.pink),     // Pink - 12%
+        ...Array(12).fill(config.emojis.pbgray),// Grey - 12%
+        ...Array(10).fill(config.emojis.lblu),       // Light Blue - 10%
+        ...Array(1).fill(config.emojis.gree)        // Green - 1%
     ];
 
     // Select a new segment based on the weighted probabilities
@@ -49,52 +51,52 @@ const manageSegmentList = async () => {
 
         // Function to update the game bar with user-selected segment
         function updateBar(segment) {
-            if (segment === '<:DataError:1257582212690350112>') {
-                bar.fill('<:DataError:1257582212690350112>'); // Fill the bar with red segments
+            if (segment === config.emojis.red) {
+                bar.fill(config.emojis.red); // Fill the bar with red segments
                 return 'dataLost'; // Special case for red segment
             }
-    if (segment === '<:DataNegitive:1257582418307842069>') { // Pink segment removes two last segments
+    if (segment === config.emojis.pink) { // Pink segment removes two last segments
         let removed = 0;
         for (let i = bar.length - 1; i >= 0 && removed < 1; i--) {
-            if (bar[i] !== '<:DataGray:1257582417384833127>') {
-                bar[i] = '<:DataGray:1257582417384833127>';
+            if (bar[i] !== config.emojis.pbgray) {
+                bar[i] = config.emojis.pbgray;
                 removed++;
             }
         }
         return 'continue';
     }
-    if (segment === '<:DataBonus:1257582047174590527>') { // Light blue segment adds 2 blue segments
+    if (segment === config.emojis.lblu) { // Light blue segment adds 2 blue segments
         let added = 0;
         for (let i = 0; i < bar.length && added < 2; i++) {
-            if (bar[i] === '<:DataGray:1257582417384833127>') {
-                bar[i] = '<:DataBlue:1257581952907612160>';
+            if (bar[i] === config.emojis.pbgray) {
+                bar[i] = config.emojis.blue;
                 added++;
             }
         }
         // Check if the bar is full after adding the blue segments
-        const filledSegments = bar.filter(seg => seg !== '<:DataGray:1257582417384833127>').length;
+        const filledSegments = bar.filter(seg => seg !== config.emojis.pbgray).length;
         return filledSegments === bar.length ? 'gameOver' : 'continue';
     }
-            if (segment === '<:DataWin:1257582905530777620> ') { // Green segment fills the bar with blue and gives 100% normal
-                bar.fill('<:DataBlue:1257581952907612160>');
+            if (segment === config.emojis.gree) { // Green segment fills the bar with blue and gives 100% normal
+                bar.fill(config.emojis.blue);
                 return 'gameOver';
             }
-            if (segment === '<a:DataRandom:1257582707815350364>') { // Random segment does a random thing
+            if (segment === config.emojis.rand) { // Random segment does a random thing
                 const randomAction = Math.floor(Math.random() * 4);
                 if (randomAction === 0) {
-                    return updateBar('<:DataCorrupt:1257582133833236521>'); // Add a corrupt segment
+                    return updateBar(config.emojis.orange); // Add a corrupt segment
                 } else if (randomAction === 1) {
-                    return updateBar('<:DataBlue:1257581952907612160>'); // Add a normal segment
+                    return updateBar(config.emojis.blue); // Add a normal segment
                 } else if (randomAction === 2) {
-                    return updateBar('<:DataError:1257582212690350112>'); // End the game with data loss
+                    return updateBar(config.emojis.red); // End the game with data loss
                 } else {
-                    return updateBar('<:DataNegitive:1257582418307842069>'); // Remove the last segment
+                    return updateBar(config.emojis.pink); // Remove the last segment
                 }
             }
-            if (bar.includes('<:DataGray:1257582417384833127>')) {
-                bar[bar.indexOf('<:DataGray:1257582417384833127>')] = segment;
+            if (bar.includes(config.emojis.pbgray)) {
+                bar[bar.indexOf(config.emojis.pbgray)] = segment;
             }
-            const filledSegments = bar.filter(segment => segment !== '<:DataGray:1257582417384833127>').length;
+            const filledSegments = bar.filter(segment => segment !== config.emojis.pbgray).length;
             return filledSegments === bar.length ? 'gameOver' : 'continue'; // Return game state
         }
 
@@ -104,15 +106,18 @@ const manageSegmentList = async () => {
             let gameMessage;
 
             if (gameState === 'gameOver') {
-                const normalSegments = bar.filter(segment => segment === '<:DataBlue:1257581952907612160>').length;
-                const corruptSegments = bar.filter(segment => segment === '<:DataCorrupt:1257582133833236521>').length;
+                const normalSegments = bar.filter(segment => segment === config.emojis.blue).length;
+                const corruptSegments = bar.filter(segment => segment === config.emojis.orange).length;
                 const normalPercentage = Math.round((normalSegments / bar.length) * 100);
                 const corruptPercentage = Math.round((corruptSegments / bar.length) * 100);
                 gameMessage = `Game Over!\n${gameBar}\nNormal: **${normalPercentage}%**\nCorrupt: **${corruptPercentage}%**`;
-            } else if (gameState === 'dataLost') {
+		const userId = interaction.user.id;
+		const achievementGranted = achHandler.grantAchievement(userId, 3, interaction);
+            }
+            else if (gameState === 'dataLost') {
                 gameMessage = `Data Lost!\n${gameBar} ERR%\n`;
             } else {
-                const filledSegments = bar.filter(segment => segment !== '<:DataGray:1257582417384833127>').length;
+                const filledSegments = bar.filter(segment => segment !== config.emojis.pbgray).length;
                 const fillPercentage = Math.round((filledSegments / bar.length) * 100);
                 const segmentOptions = segmentList.map((emoji, index) => `${index + 1}) ${emoji}`).join('\n');
                 gameMessage = `-- Type Segment Number to Catch --\n${gameBar} ${fillPercentage}%\n${segmentOptions}`;

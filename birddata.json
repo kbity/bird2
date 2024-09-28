@@ -1,6 +1,6 @@
 {
-    "fine bird": { "emoji": "<:finebird:1286845187515088966>", "spawnWeight": 300 },
-    "good bird": { "emoji": "<:goodbird:1287179403888951316>", "spawnWeight": 215 },
+    "fine bird": { "emoji": "<:finebird:1286845187515088966>", "spawnWeight": 200 },
+    "good bird": { "emoji": "<:goodbird:1287179403888951316>", "spawnWeight": 170 },
     "rare bird": { "emoji": "<:rarebird:1218383448176070757>", "spawnWeight": 146 },
     "evil bird": { "emoji": "<:evilbird:1218386113195147354>", "spawnWeight": 130 },
     "discord bird": { "emoji": "🐦", "spawnWeight": 90 },
@@ -9,9 +9,11 @@
     "grayscale bird": { "emoji": "<:grayscale:1218388224737677443>", "spawnWeight": 30 },
     "8-bit bird": { "emoji": "<:8bitbird:1218422953147109478>", "spawnWeight": 22 },
     "gold bird": { "emoji": "<:goldbird:1214020841625362442>", "spawnWeight": 14 },
+    "professor bird": { "emoji": "<:professorbird:1289449878279159839>", "spawnWeight": 11 },
     "mythic bird": { "emoji": "<:mythicbird:1218389161942188063>", "spawnWeight": 8 },
     "amd bird": { "emoji": "<:amdbird:1218387652974346310>", "spawnWeight": 5 },
-    "real bird": { "emoji": "<:realbird:1286849329398808668>", "spawnWeight": 3 },
+    "real bird": { "emoji": "<:realbird:1286849329398808668>", "spawnWeight": 4 },
+    "divine bird": { "emoji": "<:divinebird:1289451027933691915>", "spawnWeight": 3 },
     "secret bird": { "emoji": "<:secretbird:1284628943093239910>", "spawnWeight": 2 },
     "mlg bird": { "emoji": "<:mlgbird:1218385321490776146>", "spawnWeight": 1 },
     "unknown bird": { "emoji": ":grey_question:", "spawnWeight": 0 }

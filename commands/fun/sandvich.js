@@ -7,5 +7,6 @@ module.exports = {
 	async execute(interaction) {
 		await interaction.reply('https://www.youtube.com/watch?v=qQ36Repf-ZQ');
 	},
+    userApp: true, // Flag to enable adding user app mode
 };
 

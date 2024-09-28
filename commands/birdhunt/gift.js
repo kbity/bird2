@@ -1,5 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const fs = require('fs');
+const AchievementHandler = require('../../achievementHandler');
+const achHandler = new AchievementHandler();
 
 // File path for storing inventories
 const inventoryFilePath = './inventories.json';
@@ -106,5 +108,10 @@ module.exports = {
 
         // Send confirmation message
         await interaction.reply(`${interaction.user.username} has gifted ${quantity} ${birdData[birdType].emoji} ${birdType}(s) to ${targetUser.username}!`);
+        const userId = interaction.user.id;
+        const userId2 = targetUser.id;
+
+        const achievementGranted = achHandler.grantAchievement(userId, 10, interaction);
+        const achievementGranted2 = achHandler.grantAchievement(userId2, 11, interaction, targetUser.username);
     },
 };

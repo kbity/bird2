@@ -5,7 +5,8 @@ module.exports = {
 		.setName('shill-mari-development')
 		.setDescription('Shill Mari Development'),
 	async execute(interaction) {
-		await interaction.reply("https://media.discordapp.net/attachments/990334332231090217/1218237630936911922/attachment.gif");
+		await interaction.reply("https://discord.gg/RZYa2CWfxd");
 	},
+    userApp: true, // Flag to enable adding user app mode
 };
 

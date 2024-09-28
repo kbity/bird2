@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 
-const CURRENT_VERSION = 'v2.3.3e';
+const CURRENT_VERSION = 'v2.4.0';
 const REPO_URL = 'https://api.github.com/repos/kbity/bird2/releases/latest';
 
 module.exports = {
@@ -62,5 +62,6 @@ module.exports = {
             await interaction.reply({ content: 'Failed to check the latest version.', ephemeral: true });
         }
     },
+    userApp: true, // Flag to enable adding user app mode
 };
 

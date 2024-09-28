@@ -1,5 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const fs = require('fs');
+const AchievementHandler = require('../../achievementHandler');
+const achHandler = new AchievementHandler();
 
 // File path for storing inventories
 const inventoryFilePath = './inventories.json';
@@ -63,9 +65,9 @@ module.exports = {
         // Get user's inventory
         const userInventory = inventories.get(userId) || {};
 
-        // Filter out bird types with quantity zero
+        // Filter out bird types with quantity zero and ignore "fastestTime" and "slowestTime"
         const userBirds = Object.entries(userInventory)
-            .filter(([_, quantity]) => quantity > 0);
+            .filter(([birdType, quantity]) => quantity > 0 && birdType !== 'fastestTime' && birdType !== 'slowestTime');
 
         // Check if user has no birds
         if (userBirds.length === 0) {
@@ -76,10 +78,14 @@ module.exports = {
         // Sort bird types by spawn weight (rarest first)
         userBirds.sort(([typeA, _], [typeB, __]) => birdData[typeB].spawnWeight - birdData[typeA].spawnWeight);
 
+        // Calculate total birds
+        const totalBirds = userBirds.reduce((sum, [_, quantity]) => sum + quantity, 0);
+
         // Prepare embed for inventory
         const inventoryEmbed = {
             color: 0x0099ff,
             title: `${targetUser.username}'s Bird Inventory`,
+            description: `Total Birds: ${totalBirds}\nFastest Catch Time: ${userInventory.fastestTime}\nSlowest Catch Time: ${userInventory.slowestTime}`,
             fields: []
         };
 
@@ -93,7 +99,23 @@ module.exports = {
             });
         }
 
+        // Check for achievements
+        const allBirdTypes = Object.keys(birdData);
+        const hasAllBirds = allBirdTypes
+            .filter(birdType => birdType !== "unknown bird")
+            .every(birdType => userInventory[birdType] > 0);
+
+        if (hasAllBirds) {
+            const achievementGranted = achHandler.grantAchievement(interaction.user.id, 13, interaction);
+        }
+
+
+        if (totalBirds >= 100) {
+            const achievementGranted2 = achHandler.grantAchievement(interaction.user.id, 14, interaction);
+        }
+
         // Send the inventory embed
         await interaction.reply({ embeds: [inventoryEmbed] });
     },
 };
+
