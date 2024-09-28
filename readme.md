@@ -3,7 +3,7 @@
 1. replace the dummy token and application/client ID with the bot token and application/client ID in config.json
 2. run `npm install` to download needed libraries and packages
 3. go to commands/utility and edit tags.js, replacing admin with your own user ID
-4. to into config.json to set the emojis to custom ones if desired, for achs.json, load the emojis dataset into the bot's emojis and configure the IDs. birds and other custom emojis being datasetted for bot emojis pending
+4. to into config.json to set the emojis to custom ones if desired, for achs.json, load the emojis dataset into the bot's emojis and configure the IDs. the minesweeper ach's icon is in tracerpt folder (why is it called tracerpt? its a nickname for a discord server)
 5. edit birds.json and birddata.json and replace the birds with your own or at least change the emojis, in birddata.json keep unknown bird
 6. go to commands/utility and edit the eval-whitelist.json, this is users who can use /eval
 7. (optional) go to commands/utility and edit the say-whitelist.json, this is users who can use /say without needing admin perms in the server
