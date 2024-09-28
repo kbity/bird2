@@ -13,7 +13,7 @@ module.exports = {
 				const imageUrl = json.results[0].url;
 				interaction.reply(imageUrl);
 				const userId = interaction.user.id;
-				const achievementGranted = achHandler.grantAchievement(userId, 9, interaction);
+				setTimeout(() => {achHandler.grantAchievement(userId, 9, interaction);}, 2000);
 			})
 			.catch(error => {
 				console.error('Error fetching neko image:', error);

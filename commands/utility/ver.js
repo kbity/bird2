@@ -1,6 +1,6 @@
 const { SlashCommandBuilder } = require('discord.js');
 
-const CURRENT_VERSION = 'v2.4.0';
+const CURRENT_VERSION = 'v2.4.0b';
 const REPO_URL = 'https://api.github.com/repos/kbity/bird2/releases/latest';
 
 module.exports = {

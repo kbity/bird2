@@ -106,12 +106,12 @@ module.exports = {
             .every(birdType => userInventory[birdType] > 0);
 
         if (hasAllBirds) {
-            const achievementGranted = achHandler.grantAchievement(interaction.user.id, 13, interaction);
+            setTimeout(() => {achHandler.grantAchievement(interaction.user.id, 13, interaction);}, 2000);
         }
 
 
         if (totalBirds >= 100) {
-            const achievementGranted2 = achHandler.grantAchievement(interaction.user.id, 14, interaction);
+            setTimeout(() => {achHandler.grantAchievement(interaction.user.id, 14, interaction);}, 2000);
         }
 
         // Send the inventory embed
