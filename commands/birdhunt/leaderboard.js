@@ -35,7 +35,10 @@ function loadJsonFile(filePath) {
 // Function to calculate total bird count for a user
 function calculateTotalBirdCount(inventory) {
     let totalBirdCount = 0;
-    for (const quantity of Object.values(inventory)) {
+    for (const [birdType, quantity] of Object.entries(inventory)) {
+        if (birdType === 'slowestTime' || birdType === 'fastestTime') {
+            continue;
+        }
         totalBirdCount += quantity;
     }
     return totalBirdCount;
@@ -46,6 +49,9 @@ function findRarestBird(inventory) {
     let rarestBird = null;
     let minSpawnWeight = Infinity;
     for (const [birdType, quantity] of Object.entries(inventory)) {
+        if (birdType === 'slowestTime' || birdType === 'fastestTime') {
+            continue;
+        }
         const spawnWeight = birdData[birdType].spawnWeight;
         if (spawnWeight < minSpawnWeight) {
             minSpawnWeight = spawnWeight;
@@ -97,4 +103,3 @@ module.exports = {
         await interaction.reply({ embeds: [leaderboardEmbed] });
     },
 };
-
