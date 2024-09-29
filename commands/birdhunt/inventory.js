@@ -104,7 +104,7 @@ module.exports = {
         const hasAllBirds = allBirdTypes
             .filter(birdType => birdType !== "unknown bird")
             .every(birdType => userInventory[birdType] > 0);
-        if (targetUser.username == interaction.user) {
+        if (targetUser.username == interaction.user.username) {
             if (hasAllBirds) {
                 setTimeout(() => {achHandler.grantAchievement(interaction.user.id, 13, interaction);}, 2000);
             }
