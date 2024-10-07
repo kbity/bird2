@@ -76,6 +76,12 @@ module.exports = {
         const birdType = interaction.options.getString('bird').toLowerCase();
         const quantity = interaction.options.getInteger('quantity') || 1;
 
+        // Ensure the quantity is positive
+        if (quantity <= 0) {
+            await interaction.reply({ content: `You cannot gift a non-positive number of birds.`, ephemeral: true });
+            return;
+        }
+
         // Check if the bird type is valid
         if (!birdData[birdType]) {
             await interaction.reply({ content: `Invalid bird type: ${birdType}.`, ephemeral: true });
@@ -108,9 +114,10 @@ module.exports = {
 
         // Send confirmation message
         await interaction.reply(`${interaction.user.username} has gifted ${quantity} ${birdData[birdType].emoji} ${birdType}(s) to ${targetUser.username}!`);
+        
+        // Handle achievements
         const userId = interaction.user.id;
         const userId2 = targetUser.id;
-
         const achievementGranted = achHandler.grantAchievement(userId, 10, interaction);
         const achievementGranted2 = achHandler.grantAchievement(userId2, 11, interaction, targetUser.username);
     },
