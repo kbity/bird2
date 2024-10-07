@@ -11,7 +11,7 @@ module.exports = {
 
         // Store the interval ID
         let presenceInterval = setInterval(() => {
-            client.user.setPresence({ activities: [{ name: 'bird v2.4.0f' }], status: 'online' });
+            client.user.setPresence({ activities: [{ name: 'bird v2.4.0g' }], status: 'online' });
         }, 1000);
     },
 };
