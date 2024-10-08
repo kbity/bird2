@@ -23,6 +23,7 @@ for (const folder of commandFolders) {
 			// Add integration_types dynamically
 			if (command.userApp) {
 				commandData.integration_types = ['0', '1'];
+				commandData.contexts = ['0', '1', '2'];
 			} else {
 				commandData.integration_types = ['0'];
 			}
