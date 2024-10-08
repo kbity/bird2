@@ -7,7 +7,7 @@
     "cool bird": { "emoji": "<:coolbird:1214020650918871132>", "spawnWeight": 70 },
     "cartoon bird": { "emoji": "<:cartoon_bird:1218436570093191218>", "spawnWeight": 50 },
     "grayscale bird": { "emoji": "<:grayscale:1218388224737677443>", "spawnWeight": 30 },
-    "8-bit bird": { "emoji": "<:8bitbird:1218422953147109478>", "spawnWeight": 22 },
+    "8-bit bird": { "emoji": "<:eightbitbird:1218422953147109478>", "spawnWeight": 22 },
     "gold bird": { "emoji": "<:goldbird:1214020841625362442>", "spawnWeight": 14 },
     "professor bird": { "emoji": "<:professorbird:1289449878279159839>", "spawnWeight": 11 },
     "mythic bird": { "emoji": "<:mythicbird:1218389161942188063>", "spawnWeight": 8 },
