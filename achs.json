@@ -103,5 +103,12 @@
     "description": "get gardened",
     "icon1": "https://cdn.discordapp.com/emojis/1289506907043663894.png",
     "icon2": "<:grass:1289506907043663894>"
+  },
+  {
+    "id": 16,
+    "name": "EVIL MFS",
+    "description": "say 'evil mfs' when an evil bird spawns",
+    "icon1": "https://cdn.discordapp.com/emojis/1292979970859077752.png",
+    "icon2": "<:evilbird:1292979970859077752>"
   }
 ]

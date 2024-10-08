@@ -1,6 +1,10 @@
 {
 	"token": "REPLACE THIS WITH A TOKEN",
-	"clientId": "REPLACE THIS WITH BOT'S USER ID'",
+	"clientId": "REPLACE THIS WITH BOT'S USER ID",
+    "startupMessageChannel": "REPLACE THIS WITH THE CHANNEL FOR THE BOT TO SEND STARTUP MESSAGES TO",
+    "startupMessages": [
+        "Bot has started!"
+    ],
 	"emojis": {
 		"fullStar": "⭐",
 		"halfStar": "✨",

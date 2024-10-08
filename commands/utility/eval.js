@@ -8,15 +8,20 @@ module.exports = {
     .addStringOption(option =>
       option.setName('code')
         .setDescription('The code to execute')
-        .setRequired(true)),
+        .setRequired(true))
+    .addBooleanOption(option =>
+      option.setName('ephemeral')
+        .setDescription('Whether the response should be ephemeral')),
   async execute(interaction) {
     const userId = interaction.user.id;
 
     if (!whitelist.includes(userId)) {
-      return interaction.reply({ content: 'You are not authorized to use this command.', ephemeral: true });
+      return interaction.reply({ content: 'https://eval-deez-nuts.xyz/', ephemeral: true });
     }
 
     const code = interaction.options.getString('code');
+    const ephemeral = interaction.options.getBoolean('ephemeral') ?? true;
+
     try {
       let logs = [];
       console.log = (...args) => {
@@ -28,10 +33,10 @@ module.exports = {
         result = await result;
       }
 
-      await interaction.reply({ content: `\`\`\`js\n${logs.join('\n')}\n${result !== undefined ? result : ''}\n\`\`\``, ephemeral: true });
+      await interaction.reply({ content: `\`\`\`js\n${logs.join('\n')}\n${result !== undefined ? result : ''}\n\`\`\``, ephemeral });
     } catch (error) {
-      await interaction.reply({ content: `Error: \`\`\`js\n${error.message}\n\`\`\``, ephemeral: true });
+      await interaction.reply({ content: `Error: \`\`\`js\n${error.message}\n\`\`\``, ephemeral });
     }
   },
+  userApp: true,
 };
-

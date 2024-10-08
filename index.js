@@ -11,6 +11,7 @@ const path = require('path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { emojis, token } = require('./config.json');
 const AchievementHandler = require('./achievementHandler');
+const marikov = require('./marikov');
 const achHandler = new AchievementHandler();
 
 // File paths for storing data
@@ -113,6 +114,20 @@ client.on('messageCreate', async message => {
         }
     }
 
+    if (message.content.toLowerCase() === 'evil mfs') {
+        const channels = await loadChannels();
+        const channelId = message.channel.id;
+        const channelData = channels.get(channelId);
+        
+        if (channelData && channelData.birdPresent) {
+            let selectedBird = channelData.currentBird;
+            
+            if (selectedBird && selectedBird.name.toLowerCase() === 'evil bird') {
+                const achievementGranted = achHandler.grantAchievement(message.author.id, 16, message);
+            }
+        }
+    }
+
     if (message.content.toLowerCase() === 'bird') {
         const channels = await loadChannels();
         const inventories = await loadInventories();
@@ -120,7 +135,7 @@ client.on('messageCreate', async message => {
         const channelId = message.channel.id;
         const channelData = channels.get(channelId);
 
-        if (channelData && channelData.birdPresent && !message.reactions.cache.get('<:true:1165438896469975130>')) {
+        if (channelData && channelData.birdPresent && !message.reactions.cache.get(emojis.catch)) {
             const birds = await loadJsonFile(birdsFilePath);
 
             let selectedBird = channelData.currentBird;
@@ -165,7 +180,7 @@ channels.set(channelId, { birdPresent: false, spawnTimestamp: spawnTimeB }); // 
 await saveChannels(channels);
 
 // React to the catch message
-message.react('<:true:1165438896469975130>')
+message.react(emojis.catch)
     .catch(error => console.error("Failed to add reaction:", error));
         }
     }
@@ -200,6 +215,55 @@ client.on('messageCreate', (message) => {
   }
 });
 
+client.on('messageCreate', async (message) => {
+    // Reload marikovdb.json every time a message is received
+    let marikovdb;
+    try {
+        marikovdb = JSON.parse(fs.readFileSync(path.join(__dirname, 'marikovdb.json')));
+    } catch (error) {
+        console.error('Error reading marikovdb.json:', error);
+        marikovdb = { channels: [], optedOutUsers: [] };  // Fallback in case of error
+    }
+
+    // Ignore messages from the bot itself
+    if (message.author.bot) return;
+
+    // Automatically respond if the message is in a channel listed in marikovdb.json
+    const isAutoRespondChannel = marikovdb.channels.includes(message.channel.id);
+
+    // Check if the bot is mentioned or if it's in an auto-respond channel
+    if (message.mentions.has(client.user) || isAutoRespondChannel) {
+        // Filter out the bot mention(s) from the message
+        const cleanMessage = message.content.replaceAll(`<@${client.user.id}>`, '').trim();
+
+        // If there's no extra content and it's a mention, respond with a default message
+        if (cleanMessage.length === 0 && message.mentions.has(client.user)) {
+            message.channel.send("uhh hello i guess :3");
+            return;
+        }
+
+        try {
+            // Use the marikov generator to generate a response based on the user's input, omitting any mentions
+            const response = await marikov.generateMarkovResponse(cleanMessage.replace(/<@!?[0-9]+>/g, ''));  // Strip mentions
+            await message.channel.send(response);  // Send the generated response to the channel
+
+            // Log the cleaned message along with user ID and mention to corpus.txt if user is not opted out
+            if (!marikovdb.optedOutUsers.includes(message.author.id) && cleanMessage.length > 0) {
+                const logEntry = `${cleanMessage} <@${message.author.id}>\n`;
+                fs.appendFile('corpus.txt', logEntry, (err) => {
+                    if (err) {
+                        console.error('Error writing to corpus.txt:', err);
+                    } else {
+                        console.log('Message logged to corpus.txt');
+                    }
+                });
+            }
+        } catch (error) {
+            console.error('Error generating response:', error);
+            message.channel.send('Sorry, something went wrong while generating a response.');
+        }
+    }
+});
 
 // Bird spawning function
 async function spawnBirds() {
@@ -232,7 +296,7 @@ async function spawnBirds() {
         if (data.spawnTimestamp <= now) {
             // Randomly select a bird based on weight
             const totalWeight = birds.reduce((acc, bird) => acc + bird.weight, 0);
-            let randomNum = Math.floor(Math.random() * totalWeight);
+            let randomNum = Math.ceil(Math.random() * totalWeight);
             let selectedBird;
             for (const bird of birds) {
                 randomNum -= bird.weight;
@@ -243,11 +307,12 @@ async function spawnBirds() {
             }
 
             // Create and send the embed message for bird appearance
+            const emojiId = selectedBird.emoji.match(/\d+/)[0];
             const embed = {
                 title: `${selectedBird.emoji} ${selectedBird.name} has appeared!`,
                 description: 'Type "bird" to catch it!',
                 image: {
-                    url: 'https://cdn.discordapp.com/avatars/1118256931040149626/3697b20ac069f55bfb074950b400356a.webp?size=4096'
+                    url: `https://cdn.discordapp.com/emojis/${emojiId}.png?size=1024`
                 }
             };
 
