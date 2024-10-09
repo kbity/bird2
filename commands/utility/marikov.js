@@ -108,10 +108,11 @@ module.exports = {
 				return;
 			}
 
-			try {
-				// Generate the Marikov response
-				const response = await marikov.generateMarkovResponse(cleanMessage);
-				await interaction.reply(response);
+        		try {
+          		         // Use the marikov generator to generate a response based on the user's input, omitting any mentions
+           		        let response = await marikov.generateMarkovResponse(cleanMessage);  // Strip mentions
+           		        response = response.replace(/<@!?[0-9]+>/g, '');  // Strip mentions from output
+           		        await message.channel.send(response);  // Send the generated response to the channel
 
 				// Log the cleaned message if the user is not opted out
 				if (!marikovdb.optedOutUsers.includes(userId)) {
@@ -120,7 +121,7 @@ module.exports = {
 				}
 			} catch (error) {
 				console.error('Error generating response:', error);
-				await interaction.reply('Sorry, something went wrong while generating a response.');
+				await interaction.reply('wuh??');
 			}
 		}
 	},
