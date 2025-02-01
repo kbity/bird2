@@ -112,8 +112,8 @@ module.exports = {
           		         // Use the marikov generator to generate a response based on the user's input, omitting any mentions
            		        let response = await marikov.generateMarkovResponse(cleanMessage);  // Strip mentions
            		        response = response.replace(/<@!?[0-9]+>/g, '');  // Strip mentions from output
-				await interaction.reply(response);
-				
+				        await interaction.reply(response);
+
 				// Log the cleaned message if the user is not opted out
 				if (!marikovdb.optedOutUsers.includes(userId)) {
 					const logEntry = `${cleanMessage} <@${userId}>\n`;
@@ -127,4 +127,5 @@ module.exports = {
 	},
     userApp: true, // Flag to enable adding user app mode
 };
+
 

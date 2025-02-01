@@ -1,4 +1,4 @@
-const { Events } = require('discord.js');
+const { Events, Client, GatewayIntentBits, ActivityType } = require('discord.js');
 const { startupMessageChannel, startupMessages } = require('../config.json');
 
 module.exports = {
@@ -16,10 +16,14 @@ module.exports = {
         // Initialize presence
         client.user.setPresence({ activities: [{ name: 'Initializing...' }], status: 'dnd' });
 
-        // Store the interval ID
         let presenceInterval = setInterval(() => {
-            client.user.setPresence({ activities: [{ name: 'bird v2.4.1' }], status: 'online' });
+            client.user.setPresence({
+                activities: [{ 
+                    name: 'bird v2.4.1e', 
+                    type: ActivityType.Custom 
+                }],
+                status: 'online'
+            });
         }, 1000);
     },
 };
-

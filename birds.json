@@ -1,5 +1,6 @@
 [
     { "emoji": "<:finebird:1286845187515088966>", "name": "Fine bird", "weight": 200},
+    { "emoji": "<:christmasbird:1320911384648613958>", "name": "Christmas bird", "weight": 0},
     { "emoji": "<:goodbird:1287179403888951316>", "name": "Good bird", "weight": 170 },
     { "emoji": "<:rarebird:1218383448176070757>", "name": "Rare bird", "weight": 146 },
     { "emoji": "<:evilbird:1218386113195147354>", "name": "Evil bird", "weight": 130 },
@@ -7,7 +8,7 @@
     { "emoji": "<:coolbird:1214020650918871132>", "name": "Cool bird", "weight": 70 },
     { "emoji": "<:cartoon_bird:1218436570093191218>", "name": "Cartoon bird", "weight": 50 },
     { "emoji": "<:grayscale:1218388224737677443>", "name": "Grayscale bird", "weight": 30 },
-    { "emoji": "<:eightbitbird:1218422953147109478>", "name": "8-bit bird", "weight": 22 },
+    { "emoji": "<:eightbitbird:1293319270838571051>", "name": "8-bit bird", "weight": 22 },
     { "emoji": "<:goldbird:1214020841625362442>", "name": "Gold bird", "weight": 14 },
     { "emoji": "<:professorbird:1289449878279159839>", "name": "Professor bird", "weight": 11 },
     { "emoji": "<:mythicbird:1218389161942188063>", "name": "Mythic bird", "weight": 8 },
