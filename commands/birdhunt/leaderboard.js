@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const {  SlashCommandBuilder } = require('discord.js');
 const fs = require('fs');
 
 // File path for storing inventories
@@ -47,13 +47,13 @@ function calculateTotalBirdCount(inventory) {
 // Function to find the rarest bird for a user
 function findRarestBird(inventory) {
     let rarestBird = null;
-    let minSpawnWeight = Infinity;
+    let minSpawnWeight = 0;
     for (const [birdType, quantity] of Object.entries(inventory)) {
         if (birdType === 'slowestTime' || birdType === 'fastestTime') {
             continue;
         }
-        const spawnWeight = birdData[birdType].spawnWeight;
-        if (spawnWeight < minSpawnWeight) {
+        const spawnWeight = birdData[birdType].value;
+        if (spawnWeight > minSpawnWeight) {
             minSpawnWeight = spawnWeight;
             rarestBird = birdType;
         }
@@ -64,17 +64,29 @@ function findRarestBird(inventory) {
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('leaderboard')
-        .setDescription('View the bird leaderboard'),
+        .setDescription('View the bird leaderboard')
+        .addBooleanOption(option =>
+            option.setName('global')
+                .setDescription('Show global leaderboard')
+                .setRequired(false)),
     async execute(interaction) {
         // Load inventories
         const inventories = loadInventories();
 
         // Calculate total bird count and find rarest bird for each user
-        const userStats = [];
+        let userStats = [];
         for (const [userId, inventory] of Object.entries(inventories)) {
             const totalBirdCount = calculateTotalBirdCount(inventory);
             const rarestBird = findRarestBird(inventory);
             userStats.push({ userId, totalBirdCount, rarestBird });
+        }
+
+        // Filter users by server membership if global option is not enabled
+        const globalOption = interaction.options.getBoolean('global');
+        if (!globalOption) {
+            await interaction.guild.members.fetch();
+            const guildMembers = interaction.guild.members;
+            userStats = userStats.filter(user => guildMembers.cache.has(user.userId));
         }
 
         // Sort users by total bird count (descending order)
@@ -83,7 +95,7 @@ module.exports = {
         // Prepare leaderboard embed
         const leaderboardEmbed = {
             color: 0x0099ff,
-            title: 'Bird Leaderboard',
+            title: globalOption ? 'Global Bird Leaderboard' : 'Local Bird Leaderboard',
             fields: []
         };
 
@@ -91,7 +103,7 @@ module.exports = {
         const topUsers = userStats.slice(0, 10);
         for (let i = 0; i < topUsers.length; i++) {
             const user = await interaction.client.users.fetch(topUsers[i].userId);
-            const rarestBirdEmoji = birdData[topUsers[i].rarestBird].emoji;
+            let rarestBirdEmoji = birdData[topUsers[i].rarestBird]?.emoji || ":rofl:";
             leaderboardEmbed.fields.push({
                 name: `${rarestBirdEmoji} ${user.username}`,
                 value: `Total Bird Count: ${topUsers[i].totalBirdCount}`,

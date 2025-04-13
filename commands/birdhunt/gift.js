@@ -113,7 +113,12 @@ module.exports = {
         saveInventories(inventories);
 
         // Send confirmation message
-        await interaction.reply(`${interaction.user.username} has gifted ${quantity} ${birdData[birdType].emoji} ${birdType}(s) to ${targetUser.username}!`);
+        //await interaction.reply(`${interaction.user.username} has gifted ${quantity} ${birdData[birdType].emoji} ${birdType}(s) to ${targetUser.username}!`);
+	    try {
+	    	await interaction.reply(`${interaction.user.username} has gifted ${quantity} ${birdData[birdType].emoji} ${birdType}(s) to ${targetUser.username}!`);
+	    } catch (error) {
+	    	await interaction.channel.send(`${interaction.user.username} has gifted ${quantity} ${birdData[birdType].emoji} ${birdType}(s) to ${targetUser.username}!`);
+	    }
         
         // Handle achievements
         const userId = interaction.user.id;

@@ -22,7 +22,7 @@ module.exports = {
 		              config.emojis.halfStar.repeat(halfStar) + 
 		              config.emojis.emptyStar.repeat(emptyStars);
 
-		await interaction.reply(`as a bird, i rate ${input} ${rating}/5 birds. ${stars}`);
+		await interaction.reply({content: `as a bird, i rate ${input} ${rating}/5 birds. ${stars}`,allowedMentions: {}});
 		const userId = interaction.user.id;
 		const achievementGranted = achHandler.grantAchievement(userId, 7, interaction);
 	},

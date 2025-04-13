@@ -76,7 +76,7 @@ module.exports = {
         }
 
         // Sort bird types by spawn weight (rarest first)
-        userBirds.sort(([typeA, _], [typeB, __]) => birdData[typeB].spawnWeight - birdData[typeA].spawnWeight);
+        userBirds.sort(([typeA, _], [typeB, __]) => birdData[typeA].value - birdData[typeB].value);
 
         // Calculate total birds
         const totalBirds = userBirds.reduce((sum, [_, quantity]) => sum + quantity, 0);

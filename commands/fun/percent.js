@@ -19,7 +19,7 @@ module.exports = {
         // Generate a random number between 0 and 100
         const percentage = Math.floor(Math.random() * 101);
 
-        const response = `${user} is ${percentage}% ${property}, imo`;
+        const response = {content: `${user} is ${percentage}% ${property}, imo`,allowedMentions: {}};
         await interaction.reply(response);
     },
     userApp: true, // Flag to enable adding user app mode

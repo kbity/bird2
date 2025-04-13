@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('discord.js');
-const whitelist = require('./eval-whitelist.json');
+const config = require('../../config.json');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -15,7 +15,7 @@ module.exports = {
   async execute(interaction) {
     const userId = interaction.user.id;
 
-    if (!whitelist.includes(userId)) {
+    if (!config.evalWhitelist.includes(userId)) {
       return interaction.reply({ content: 'https://eval-deez-nuts.xyz/', ephemeral: true });
     }
 

@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, PermissionsBitField } = require('discord.js');
-const whitelist = require('./say-whitelist.json');
+const config = require('../../config.json');
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -24,7 +24,7 @@ module.exports = {
 		} else {
 			// In a guild, check if the user is whitelisted or has Administrator permission
 			if (
-				whitelist.includes(user.id) ||
+				config.sayWhitelist.includes(user.id) ||
 				member.permissions.has(PermissionsBitField.Flags.Administrator)
 			) {
 				await interaction.reply({ content: `You said: ${message}`, ephemeral: true });
