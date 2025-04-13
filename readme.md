@@ -1,15 +1,12 @@
 # setup instructions
 
-1. replace the dummy token and application/client ID with the bot token and application/client ID in config.json
-2. run `npm install` to download needed libraries and packages
-3. go to commands/utility and edit tags.js, replacing admin with your own user ID
-4. to into config.json to set the emojis to custom ones if desired, for achs.json, load the emojis dataset into the bot's emojis and configure the IDs. the minesweeper ach's icon is in tracerpt folder (why is it called tracerpt? its a nickname for a discord server)
-5. edit birds.json and birddata.json and replace the birds with your own or at least change the emojis, in birddata.json keep unknown bird
-6. go to commands/utility and edit the eval-whitelist.json, this is users who can use /eval
-7. (optional) go to commands/utility and edit the say-whitelist.json, this is users who can use /say without needing admin perms in the server
-8. (optional) go into commands/anime/gifs to add/edit/remove anime gifs from the ***-gifs.json files
-9. run `node deploy-commands.js` to deploy the Commands
-10. run `npm start` or `node .` to run the bot
+1. run `npm install` to download needed libraries and packages
+2. run `npm run conf` for configuration cli. run commands emojisync, cmdsync, and startupmsg channel.
+3. enter achs.json, load the /emojis/achs emojis into the bot's emojis and configure the IDs.
+4. edit birds.json and birddata.json and replace the birds with your own or at least change the emojis, in birddata.json keep unknown bird
+5. (optional) go into commands/anime/gifs to add/edit/remove anime gifs from the ***-gifs.json files
+6. run `node deploy-commands.js` to deploy the Commands
+7. run `npm start` or `node .` to run the bot
 
 auth link for offical bot: https://discord.com/api/oauth2/authorize?client_id=1118256931040149626&permissions=137439333446&scope=bot+applications.commands
 
@@ -20,9 +17,7 @@ Minor is a major feature update<br>
 Patch is bug fixes and minor features
 
 Minipatches are tiny updates.<br>
-assume all versions have an a, like v2.2.1a. a minipatch increments the letter, so a mimipached v2.2.1 is v2.2.1b, and adding a second would make v2.2.1c, etc
-
-
+assume all versions without the minipatch present have an a, like v2.2.1a. a minipatch increments the letter, so a mimipached v2.2.1 is v2.2.1b, and adding a second would make v2.2.1c, etc
 
 ex: 2.3.0b:
 

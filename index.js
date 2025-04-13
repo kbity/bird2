@@ -1,15 +1,30 @@
-process.on('uncaughtException', function (exception) {
+process.on('uncaughtException', function(exception) {
     console.log(exception);
 });
 
-const { fetch, setGlobalDispatcher, Agent } = require ('undici')
-setGlobalDispatcher(new Agent({ connect: { timeout: 60_000 } }) )
+const {
+    fetch,
+    setGlobalDispatcher,
+    Agent
+} = require('undici')
+setGlobalDispatcher(new Agent({
+    connect: {
+        timeout: 60_000
+    }
+}))
 
 const fs = require('fs');
 const fsp = fs.promises;
 const path = require('path');
-const { Client, Collection, GatewayIntentBits } = require('discord.js');
-const { emojis, token } = require('./config.json');
+const {
+    Client,
+    Collection,
+    GatewayIntentBits
+} = require('discord.js');
+const {
+    emojis,
+    token
+} = require('./config.json');
 const AchievementHandler = require('./achievementHandler');
 const marikov = require('./marikov');
 const achHandler = new AchievementHandler();
@@ -65,7 +80,8 @@ const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
-        GatewayIntentBits.MessageContent // Required to read message content
+        GatewayIntentBits.MessageContent,
+        GatewayIntentBits.GuildMembers
     ]
 });
 
@@ -118,72 +134,17 @@ client.on('messageCreate', async message => {
         const channels = await loadChannels();
         const channelId = message.channel.id;
         const channelData = channels.get(channelId);
-        
+
         if (channelData && channelData.birdPresent) {
             let selectedBird = channelData.currentBird;
-            
+
             if (selectedBird && selectedBird.name.toLowerCase() === 'evil bird') {
                 const achievementGranted = achHandler.grantAchievement(message.author.id, 16, message);
             }
         }
     }
 
-    if (message.content.toLowerCase() === 'bird') {
-        const channels = await loadChannels();
-        const inventories = await loadInventories();
-
-        const channelId = message.channel.id;
-        const channelData = channels.get(channelId);
-
-        if (channelData && channelData.birdPresent && !message.reactions.cache.get(emojis.catch)) {
-            const birds = await loadJsonFile(birdsFilePath);
-
-            let selectedBird = channelData.currentBird;
-            const user = message.author;
-
-            if (!selectedBird || !birds.find(bird => bird.name === selectedBird.name)) {
-                selectedBird = { name: 'Unknown Bird', emoji: '❓' };
-            }
-
-            const inventory = inventories.get(user.id) || {};
-            inventory[selectedBird.name.toLowerCase()] = (inventory[selectedBird.name.toLowerCase()] || 0) + 1;
-
-const spawnTimeA = channelData.spawnTimestamp
-const catchTime = (Date.now() - spawnTimeA) / 1000; // time in seconds since the bird spawned
-
-// Update inventory fastest/slowest time
-if (!inventory.fastestTime || catchTime < inventory.fastestTime) {
-    inventory.fastestTime = catchTime;
-}
-
-if (!inventory.slowestTime || catchTime > inventory.slowestTime) {
-    inventory.slowestTime = catchTime;
-}
-
-// Save the inventory
-inventories.set(user.id, inventory);
-await saveInventories(inventories);
-
-// Send the caught bird message
-const caughtEmbed = {
-    description: `${user.username} has caught a ${selectedBird.emoji} ${selectedBird.name}!!\ncatching took ${catchTime} seconds!!\nyou now have ${inventory[selectedBird.name.toLowerCase()]} birds of that variety!!`,
-};
-await message.channel.send({ embeds: [caughtEmbed] });
-
-// Grant the achievement
-const userId = message.author.id;
-const achievementGranted = achHandler.grantAchievement(userId, 2, message);
-
-// Schedule the next bird spawn, only after the catch is processed
-const spawnTimeB = Date.now() + Math.random() * (30 * 60 * 1000 - 3 * 60 * 1000) + 3 * 60 * 1000;
-channels.set(channelId, { birdPresent: false, spawnTimestamp: spawnTimeB }); // schedule future spawn
-await saveChannels(channels);
-
-// React to the catch message
-message.react(emojis.catch)
-    .catch(error => console.error("Failed to add reaction:", error));
-        }
-    }
+    if (message.content.toLowerCase() === 'bird') {catchingFuncion(message)}
 
     if (message.content.toLowerCase().includes('bird')) {
         message.react(emojis.bird);
@@ -193,36 +154,44 @@ message.react(emojis.catch)
 });
 
 client.on('messageCreate', (message) => {
-  if (message.author.bot) return;
+    if (message.author.bot) return;
 
-  if (message.content.toLowerCase() === 'mari!sex') {
-    message.channel.send("👁️ **attention!** 👁️\n👺 {you have} **insulted the president of chicken coop** 👺\n🚶‍♀️ {please} **leave the premises at once** 🚶‍♂️\n💩👹👾 {or face the might of our nuclear arsenal} 💩👹👾");
-  }
+    if (message.content.toLowerCase() === 'mari!sex') {
+        message.channel.send("👁️ **attention!** 👁️\n👺 {you have} **insulted the president of chicken coop** 👺\n🚶‍♀️ {please} **leave the premises at once** 🚶‍♂️\n💩👹👾 {or face the might of our nuclear arsenal} 💩👹👾");
+    }
 
-  if (message.content.toLowerCase() === 'bird!i_visited_website') {
+    if (message.content.toLowerCase() === 'bird!i_visited_website') {
         const userId = message.author.id;
         const achievementGranted = achHandler.grantAchievement(userId, 4, message);
-  }
+    }
 
-  if (message.content.toLowerCase() === 'bird!mari_is_cute') {
+    if (message.content.toLowerCase().includes('hedron')) {
+        const userId = message.author.id;
+        const achievementGranted = achHandler.grantAchievement(userId, 18, message);
+    }
+
+    if (message.content.toLowerCase() === 'bird!mari_is_cute') {
         const userId = message.author.id;
         const achievementGranted = achHandler.grantAchievement(userId, 5, message);
-  }
+    }
 
-  if (message.content.toLowerCase().includes('<@1225905087352672298>')) {
+    if (message.content.toLowerCase().includes('<@1225905087352672298>')) {
         const userId = message.author.id;
         const achievementGranted = achHandler.grantAchievement(userId, 6, message);
-  }
+    }
 });
 
-client.on('messageCreate', async (message) => {
+client.on('messageCreate', async(message) => {
     // Reload marikovdb.json every time a message is received
     let marikovdb;
     try {
         marikovdb = JSON.parse(fs.readFileSync(path.join(__dirname, 'marikovdb.json')));
     } catch (error) {
         console.error('Error reading marikovdb.json:', error);
-        marikovdb = { channels: [], optedOutUsers: [] };  // Fallback in case of error
+        marikovdb = {
+            channels: [],
+            optedOutUsers: []
+        }; // Fallback in case of error
     }
 
     // Ignore messages from the bot itself
@@ -244,13 +213,13 @@ client.on('messageCreate', async (message) => {
 
         try {
             // Use the marikov generator to generate a response based on the user's input, omitting any mentions
-            let response = await marikov.generateMarkovResponse(cleanMessage);  // Strip mentions
-            response = response.replace(/<@!?[0-9]+>/g, '');  // Strip mentions from output
-            await message.channel.send(response);  // Send the generated response to the channel
+            let response = await marikov.generateMarkovResponse(cleanMessage); // Strip mentions
+            response = response.replace(/<@!?[0-9]+>/g, ''); // Strip mentions from output
+            await message.channel.send(response); // Send the generated response to the channel
 
             // Log the cleaned message along with user ID and mention to corpus.txt if user is not opted out
             if (!marikovdb.optedOutUsers.includes(message.author.id) && cleanMessage.length > 0) {
-                const logEntry = `${cleanMessage} <@${message.author.id}>\n`;	
+                const logEntry = `${cleanMessage} <@${message.author.id}>\n`;
                 fs.appendFile('corpus.txt', logEntry, (err) => {
                     if (err) {
                         console.error('Error writing to corpus.txt:', err);
@@ -264,84 +233,202 @@ client.on('messageCreate', async (message) => {
     }
 });
 
-// Bird spawning function
-async function spawnBirds() {
+async function catchingFuncion(message) {
     const channels = await loadChannels();
-    const birds = await loadJsonFile(birdsFilePath);
+    const inventories = await loadInventories();
 
-    if (!birds) {
-        console.error('No birds data loaded.');
+    const channelId = message.channel.id;
+    const channelData = channels.get(channelId);
+
+    if (!channelData || (!channelData.birdPresent && !channelData.birds)) {
+        await message.react(emojis.fail);
         return;
     }
 
-    const now = Date.now();
-    let channelsUpdated = false;
+    const birdsData = await loadJsonFile(birdsFilePath);
+    const user = message.author;
+    let caughtBirds = [];
 
-    for (const [channelId, data] of channels.entries()) {
-        // Check if the bot has access to the channel
-        const channel = await client.channels.fetch(channelId).catch(err => {
-            console.error(`Error fetching channel ${channelId}:`, err);
-            return null;
-        });
-
-        if (!channel) continue; // Skip if channel fetch fails
-
-        // Skip channels where a bird is already present
-        if (data.birdPresent) {
-            continue;
-        }
-
-        // Check if it's time to spawn a new bird
-        if (data.spawnTimestamp <= now) {
-            // Randomly select a bird based on weight
-            const totalWeight = birds.reduce((acc, bird) => acc + bird.weight, 0);
-            let randomNum = Math.ceil(Math.random() * totalWeight);
-            let selectedBird;
-            for (const bird of birds) {
-                randomNum -= bird.weight;
-                if (randomNum <= 0) {
-                    selectedBird = bird;
-                    break;
-                }
-            }
-
-            // Create and send the embed message for bird appearance
-            const emojiId = selectedBird.emoji.match(/\d+/)[0];
-            const embed = {
-                title: `${selectedBird.emoji} ${selectedBird.name} has appeared!`,
-                description: 'Type "bird" to catch it!',
-                image: {
-                    url: `https://cdn.discordapp.com/emojis/${emojiId}.png?size=1024`
-                }
-            };
-
-            try {
-                await channel.send({ embeds: [embed] });
-
-                // Update the channel data to reflect the bird spawn
-                channels.set(channelId, {
-                    birdPresent: true,
-                    currentBird: selectedBird,
-                    spawnTimestamp: now
-                });
-
-                channelsUpdated = true;
-            } catch (error) {
-                console.error(`Error sending message to channel ${channelId}:`, error);
-            }
-        }
+    if (channelData.birds && Array.isArray(channelData.birds) && channelData.birds.length > 0) {
+        caughtBirds = [...channelData.birds];
+        channelData.birdPresent = false;
+        delete channelData.birds;
+    } else if (channelData.currentBird) {
+        caughtBirds = [channelData.currentBird];
+        channelData.birdPresent = false;
+        delete channelData.currentBird;
+    } else {
+        caughtBirds = [{ name: 'Unknown Bird', emoji: '❓' }];
     }
 
-    // Save channels data only if there were updates
-    if (channelsUpdated) {
-        await saveChannels(channels);
+    channels.set(channelId, channelData);
+    await saveChannels(channels);
+
+    const inventory = inventories.get(user.id) || {};
+    const spawnTimeA = channelData.spawnTimestamp;
+    const catchTime = (Date.now() - spawnTimeA) / 1000;
+
+    for (const bird of caughtBirds) {
+        const birdName = bird.name.toLowerCase();
+        inventory[birdName] = (inventory[birdName] || 0) + 1;
     }
+
+    if (!inventory.fastestTime || catchTime < inventory.fastestTime) {
+        inventory.fastestTime = catchTime;
+    }
+    if (!inventory.slowestTime || catchTime > inventory.slowestTime) {
+        inventory.slowestTime = catchTime;
+    }
+
+    inventories.set(user.id, inventory);
+    await saveInventories(inventories);
+
+    const caughtDescriptions = caughtBirds.map(b => `${b.emoji} ${b.name}`).join(' and ');
+    const countsText = caughtBirds.map(b => `you now have ${inventory[b.name.toLowerCase()]} ${b.name}(s)`).join('\n');
+
+    const caughtEmbed = {
+        description: `${user.username} has caught ${caughtDescriptions}!!\ncatching took ${catchTime} seconds!!\n${countsText}`
+    };
+
+    await message.channel.send({ embeds: [caughtEmbed] });
+
+    const userId = user.id;
+    achHandler.grantAchievement(userId, 2, message);
+
+    console.log(`Previous spawn time: ${spawnTimeA}, Catch time: ${catchTime}s`);
+
+    function getFutureSpawnTime(minMinutes = 5, maxMinutes = 15) {
+        const minMs = minMinutes * 60000;
+        const maxMs = maxMinutes * 60000;
+        return Date.now() + (Math.random() * (maxMs - minMs)) + minMs;
+    }
+
+    const spawnTimeB = getFutureSpawnTime();
+    console.log(`Scheduling next spawn at: ${new Date(spawnTimeB).toLocaleString()}`);
+
+    channels.set(channelId, {
+        birdPresent: false,
+        spawnTimestamp: spawnTimeB
+    });
+    await saveChannels(channels);
+
+    message.react(emojis.catch).catch(err => console.error("Failed to add reaction:", err));
+}
+
+// A simple in-memory lock object keyed by channel IDs
+const channelLocks = new Map();
+
+async function acquireLock(channelId) {
+  // If a lock already exists, wait for it to be released.
+  while (channelLocks.get(channelId)) {
+    // Wait a little bit (you may adjust the delay)
+    await new Promise(resolve => setTimeout(resolve, 50));
+  }
+  // Acquire the lock
+  channelLocks.set(channelId, true);
+}
+
+function releaseLock(channelId) {
+  channelLocks.delete(channelId);
+}
+
+
+async function spawnBirds() {
+  const channels = await loadChannels();
+  const birds = await loadJsonFile(birdsFilePath);
+  if (!birds || birds.length === 0) {
+    console.error('[SPAWN] No birds data loaded.');
+    return;
+  }
+
+  const now = Date.now();
+  let channelsUpdated = false;
+
+  for (const [channelId, data] of channels.entries()) {
+    await acquireLock(channelId);
+    try {
+      // Re-read the state data within the lock.
+      const channelData = channels.get(channelId);
+      // Skip if a bird is already present.
+      if (channelData.birdPresent) continue;
+      // Skip if spawn time hasn't passed yet.
+      if (!channelData.spawnTimestamp || channelData.spawnTimestamp > now) continue;
+
+      // Attempt to fetch the channel.
+      const channel = await client.channels.fetch(channelId).catch(err => {
+        console.error(`[SPAWN] Error fetching channel ${channelId}:`, err);
+        return null;
+      });
+      if (!channel) continue;
+
+      // Weighted random selection.
+      const totalWeight = birds.reduce((acc, bird) => acc + bird.weight, 0);
+      const selectBird = () => {
+        let rand = Math.random() * totalWeight;
+        for (const bird of birds) {
+          rand -= bird.weight;
+          if (rand <= 0) return bird;
+        }
+        return birds[birds.length - 1]; // fallback
+      };
+
+      const bird1 = selectBird();
+      const spawnTwo = Math.random() < 0.5;
+      const selectedBirds = spawnTwo ? [bird1, selectBird()] : [bird1];
+
+      // Format embed(s).
+      const embeds = selectedBirds.map(bird => ({
+        title: `${bird.emoji} ${bird.name} has appeared!`,
+        description: 'Type "bird" to catch it!',
+        image: bird.emoji.match(/\d+/)
+          ? {
+              url: `https://cdn.discordapp.com/emojis/${bird.emoji.match(/\d+/)[0]}.png?size=1024`
+            }
+          : undefined,
+      }));
+
+      try {
+        await channel.send({ embeds });
+      } catch (err) {
+        console.error(`[SPAWN] Failed to send bird embed to ${channelId}:`, err);
+        continue; // even if the sending fails, we want to release the lock
+      }
+
+      // Update channel state safely.
+      const updated = { ...channelData };
+      updated.birdPresent = true;
+      updated.spawnTimestamp = now;
+
+      // Store as an array or single bird for compatibility.
+      if (selectedBirds.length === 1) {
+        updated.currentBird = selectedBirds[0];
+        delete updated.birds;
+      } else {
+        updated.birds = selectedBirds;
+        delete updated.currentBird;
+      }
+
+      channels.set(channelId, updated);
+      channelsUpdated = true;
+
+      console.log(
+        `[SPAWN] Spawned ${selectedBirds.map(b => b.name).join(', ')} in channel ${channelId}`
+      );
+    } finally {
+      // Always release the lock regardless of success or failure.
+      releaseLock(channelId);
+    }
+  }
+
+  if (channelsUpdated) {
+    await saveChannels(channels);
+  }
 }
 
 // Increase interval to reduce potential spamming due to lag
 // Set interval to 10 seconds (10000ms) instead of 1 second
 //setInterval(spawnBirds, 10000);
-setInterval(spawnBirds, 3000);
+setInterval(spawnBirds, 10000);
 
 // Login the client with token
 client.login(token);
