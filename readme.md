@@ -2,7 +2,7 @@
 
 1. run `npm install` to download needed libraries and packages
 2. delete example config.json (unless you're doing it manually)
-3. run `npm run conf` for configuration cli. run commands restore, emojisync, cmdsync, and startupmsg channel {channelId}.
+3. run `npm run conf` for configuration cli. run commands restore, emojisync, cmdsync, startupmsg channel {channelId}, and tagsadmin {userId}.
 4. enter achs.json, load the /emojis/achs emojis into the bot's emojis and configure the IDs.
 5. edit birds.json and birddata.json and replace the birds with your own or at least change the emojis, in birddata.json keep unknown bird
 6. (optional) go into commands/anime/gifs to add/edit/remove anime gifs from the ***-gifs.json files
