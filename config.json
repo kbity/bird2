@@ -2,8 +2,16 @@
 	"token": "REPLACE THIS WITH A TOKEN",
 	"clientId": "REPLACE THIS WITH BOT'S USER ID",
     "startupMessageChannel": "REPLACE THIS WITH THE CHANNEL FOR THE BOT TO SEND STARTUP MESSAGES TO",
+    "tagsAdmin": "REPLACE WITH YOUR USER ID",
+    "prefix": "bird!",
     "startupMessages": [
         "Bot has started!"
+    ],
+    "evalWhitelist": [
+        "REPLACE WITH YOUR USER ID"
+    ],
+    "sayWhitelist": [
+        "REPLACE WITH YOUR USER ID"
     ],
 	"emojis": {
 		"fullStar": "⭐",
