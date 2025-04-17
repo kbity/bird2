@@ -1,6 +1,6 @@
 const { Events } = require('discord.js');
 const { prefix } = require('../../config.json');
-const CURRENT_VERSION = 'v2.4.2b';
+const CURRENT_VERSION = 'v2.4.2c';
 const REPO_URL = 'https://api.github.com/repos/kbity/bird2/releases/latest';
 
 module.exports = {
