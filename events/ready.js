@@ -19,7 +19,7 @@ module.exports = {
         let presenceInterval = setInterval(() => {
             client.user.setPresence({
                 activities: [{ 
-                    name: 'bird v2.4.2b', 
+                    name: 'bird v2.4.2c', 
                     type: ActivityType.Custom 
                 }],
                 status: 'online'
