@@ -9,6 +9,7 @@ module.exports = {
     name: Events.MessageCreate,
     once: false,
     async execute(message) {
+        if (message.author.id === message.client.user.id) return; // Ignore the bot's own messages
         // Reload marikovdb.json every time a message is received
         let marikovdb;
         try {
