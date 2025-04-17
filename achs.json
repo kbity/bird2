@@ -3,126 +3,154 @@
     "id": 1,
     "name": "bird",
     "description": "a bird reference holy shit",
-    "icon1": "https://cdn.discordapp.com/emojis/1338303859025645702.png",
-    "icon2": "<:bird:1338303859025645702>"
+    "icon1": "https://cdn.discordapp.com/emojis/1361806005117124740.png",
+    "icon2": "<:bird:1361806005117124740>"
   },
   {
     "id": 2,
     "name": "first catch",
     "description": "catch a bird",
-    "icon1": "https://cdn.discordapp.com/emojis/1359303302923424016.png",
-    "icon2": "<:birdtrophie:1359303302923424016>"
+    "icon1": "https://cdn.discordapp.com/emojis/1361808463487045814.png",
+    "icon2": "<:birdtrophie:1361808463487045814>"
   },
   {
     "id": 3,
     "name": "Progressbird95",
     "description": "complete progressbird95",
-    "icon1": "https://cdn.discordapp.com/emojis/1359303166214013040.png",
-    "icon2": "<:pb95:1359303166214013040>"
+    "icon1": "https://cdn.discordapp.com/emojis/1361808506679984428.png",
+    "icon2": "<:pb95:1361808506679984428>"
   },
   {
     "id": 4,
     "name": "website",
     "description": "bird!i_visited_website",
-    "icon1": "https://cdn.discordapp.com/emojis/1359303399778160740.png",
-    "icon2": "<:maricom:1359303399778160740>"
+    "icon1": "https://cdn.discordapp.com/emojis/1361808540528021726.png",
+    "icon2": "<:maricom:1361808540528021726>"
   },
   {
     "id": 5,
     "name": "cute mari",
     "description": "by using this bot you agree to the following terms",
-    "icon1": "https://cdn.discordapp.com/emojis/1359303522029539519.png",
-    "icon2": "<:patthemari:1359303522029539519>"
+    "icon1": "https://cdn.discordapp.com/emojis/1361808575768432672.png",
+    "icon2": "<:patthemari:1361808575768432672>"
   },
   {
     "id": 6,
     "name": "MARILINK",
     "description": "chatting across servers is fun",
-    "icon1": "https://cdn.discordapp.com/emojis/1359303573070020810.png",
-    "icon2": "<:marilink:1359303573070020810>"
+    "icon1": "https://cdn.discordapp.com/emojis/1361808607997329418.png",
+    "icon2": "<:marilink:1361808607997329418>"
   },
   {
     "id": 7,
     "name": "rated 5 stars on maricom",
     "description": "use /rate",
-    "icon1": "https://cdn.discordapp.com/emojis/1338303866164215839.png",
-    "icon2": "<:fullStar:1338303866164215839>"
+    "icon1": "https://cdn.discordapp.com/emojis/1361806023773520084.png",
+    "icon2": "<:fullStar:1361806023773520084>"
   },
   {
     "id": 8,
     "name": "minesweeper",
     "description": "just like... bosnia",
-    "icon1": "https://cdn.discordapp.com/emojis/1338303853858390026.png",
-    "icon2": "<:sweeperguycool:1338303853858390026>"
+    "icon1": "https://cdn.discordapp.com/emojis/1361805995130749249.png",
+    "icon2": "<:sweeperguycool:1361805995130749249>"
   },
   {
     "id": 9,
     "name": "mrrp mrow",
     "description": "nekos are the best",
-    "icon1": "https://cdn.discordapp.com/emojis/1359303200389333042.png",
-    "icon2": "<:meowrderous_intent:1359303200389333042>"
+    "icon1": "https://cdn.discordapp.com/emojis/1361808726046019956.png",
+    "icon2": "<:meowrderous_intent:1361808726046019956>"
   },
   {
     "id": 10,
     "name": "donater",
     "description": "gift someone birds",
-    "icon1": "https://cdn.discordapp.com/emojis/1359303896949850172.png",
-    "icon2": "<:birdarrow:1359303896949850172>"
+    "icon1": "https://cdn.discordapp.com/emojis/1361808766034513920.png",
+    "icon2": "<:birdarrow:1361808766034513920>"
   },
   {
     "id": 11,
     "name": "donation fraud",
     "description": "get someone's' birds",
-    "icon1": "https://cdn.discordapp.com/emojis/1359303963043827852.png",
-    "icon2": "<:inbird:1359303963043827852>"
+    "icon1": "https://cdn.discordapp.com/emojis/1361808817725116490.png",
+    "icon2": "<:inbird:1361808817725116490>"
   },
   {
     "id": 12,
     "name": "not quite",
     "description": "wrong animal",
-    "icon1": "https://cdn.discordapp.com/emojis/1359303144944701581.png",
-    "icon2": "<:wronganimal:1359303144944701581>"
+    "icon1": "https://cdn.discordapp.com/emojis/1361808852374519828.png",
+    "icon2": "<:wronganimal:1361808852374519828>"
   },
   {
     "id": 13,
     "name": "a complete collection",
     "description": "own at least one of each bird",
-    "icon1": "https://cdn.discordapp.com/emojis/1359303188439765154.png",
-    "icon2": "<:mlgtrophie:1359303188439765154>"
+    "icon1": "https://cdn.discordapp.com/emojis/1361808906300424292.png",
+    "icon2": "<:mlgtrophie:1361808906300424292>"
   },
   {
     "id": 14,
     "name": "many birds",
     "description": "100+ birds",
-    "icon1": "https://cdn.discordapp.com/emojis/1359304072456568853.png",
-    "icon2": "<:goldtrophie:1359304072456568853>"
+    "icon1": "https://cdn.discordapp.com/emojis/1361808943952826419.png",
+    "icon2": "<:goldtrophie:1361808943952826419>"
   },
   {
     "id": 15,
     "name": "grass",
     "description": "get gardened",
-    "icon1": "https://cdn.discordapp.com/emojis/1359304110985183412.png",
-    "icon2": "<:grass:1359304110985183412>"
+    "icon1": "https://cdn.discordapp.com/emojis/1361808997723672576.png",
+    "icon2": "<:grass:1361808997723672576>"
   },
   {
     "id": 16,
     "name": "EVIL MFS",
     "description": "say 'evil mfs' when an evil bird spawns",
-    "icon1": "https://cdn.discordapp.com/emojis/1359304165372723291.png",
-    "icon2": "<:evilbird:1359304165372723291>"
+    "icon1": "https://cdn.discordapp.com/emojis/1361809030468599952.png",
+    "icon2": "<:evilbird:1361809030468599952>"
   },
   {
     "id": 17,
     "name": "random bird wow",
     "description": "use /random to see a random bird",
-    "icon1": "https://cdn.discordapp.com/emojis/1359326722788688004.png",
-    "icon2": "<:realbird:1359326722788688004>"
+    "icon1": "https://cdn.discordapp.com/emojis/1361809083795116093.png",
+    "icon2": "<:realbird:1361809083795116093>"
   },
   {
     "id": 18,
     "name": "polyhedron store",
     "description": "hello welcome to abotminbnr",
-    "icon1": "https://cdn.discordapp.com/emojis/1359329518850015314.png",
-    "icon2": "<:Icosahedron:1359329518850015314>"
+    "icon1": "https://cdn.discordapp.com/emojis/1361809127994687509.png",
+    "icon2": "<:Icosahedron:1361809127994687509>"
+  },
+  {
+    "id": 19,
+    "name": "small collection",
+    "description": "10 of the feathery things",
+    "icon1": "https://cdn.discordapp.com/emojis/1361839248206200923.png",
+    "icon2": "<:blobtrophie:1361839248206200923>"
+  },
+  {
+    "id": 20,
+    "name": "way too many birds",
+    "description": "you're collecting so many, stop!",
+    "icon1": "https://cdn.discordapp.com/emojis/1361809783941894184.png",
+    "icon2": "<:divinetrophie:1361809783941894184>"
+  },
+  {
+    "id": 21,
+    "name": "seriously?",
+    "description": "get a life",
+    "icon1": "https://cdn.discordapp.com/emojis/1361838488722608179.png",
+    "icon2": "<:secrettrophie:1361838488722608179>"
+  },
+  {
+    "id": 22,
+    "name": "dealmaker",
+    "description": "complete a trade",
+    "icon1": "https://cdn.discordapp.com/emojis/1362212268850544731.png",
+    "icon2": "<:dealoffer:1362212268850544731>"
   }
 ]

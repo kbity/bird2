@@ -53,4 +53,3 @@ Under the weather.
 Water under the bridge.
 You can't have your cake and eat it too.
 You can't judge a book by its cover.
-Hello, World!

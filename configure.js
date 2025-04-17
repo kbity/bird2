@@ -37,6 +37,7 @@ function initializeConfig() {
             "clientId": "(Unconfigured!)",
             "startupMessageChannel": "(Unconfigured!)",
             "tagsAdmin": "(Unconfigured!)",
+            "prefix": "bird!",
             "startupMessages": ["Bot Started (you can edit this in config)"],
             "evalWhitelist": [],
             "sayWhitelist": [],
