@@ -85,7 +85,7 @@ module.exports = {
         const inventoryEmbed = {
             color: 0x0099ff,
             title: `${targetUser.username}'s Bird Inventory`,
-            description: `Total Birds: ${totalBirds}\nFastest Catch Time: ${userInventory.fastestTime}\nSlowest Catch Time: ${userInventory.slowestTime}`,
+            description: `Total Birds: ${totalBirds}\nFastest Catch Time: ${formatCatchTime(userInventory.fastestTime)}\nSlowest Catch Time: ${formatCatchTime(userInventory.slowestTime)}`,
             fields: []
         };
 
@@ -109,9 +109,19 @@ module.exports = {
                 setTimeout(() => {achHandler.grantAchievement(interaction.user.id, 13, interaction);}, 2000);
             }
 
+            if (totalBirds >= 10) {
+                setTimeout(() => {achHandler.grantAchievement(interaction.user.id, 19, interaction);}, 2000);
+            }
 
             if (totalBirds >= 100) {
                 setTimeout(() => {achHandler.grantAchievement(interaction.user.id, 14, interaction);}, 2000);
+            }
+
+            if (totalBirds >= 1000) {
+                setTimeout(() => {achHandler.grantAchievement(interaction.user.id, 20, interaction);}, 2000);
+            }
+            if (totalBirds >= 10000) {
+                setTimeout(() => {achHandler.grantAchievement(interaction.user.id, 21, interaction);}, 2000);
             }
         }
 
@@ -120,3 +130,38 @@ module.exports = {
     },
 };
 
+function formatCatchTime(totalSeconds) {
+  const isNegative = totalSeconds < 0;
+  totalSeconds = Math.abs(totalSeconds);
+
+  const time = {
+    year: Math.floor(totalSeconds / (365 * 24 * 60 * 60)),
+    month: 0,
+    week: 0,
+    day: 0,
+    hour: 0,
+    minute: 0,
+    second: 0
+  };
+
+  let remaining = totalSeconds % (365 * 24 * 60 * 60);
+  time.month = Math.floor(remaining / (30 * 24 * 60 * 60));
+  remaining %= 30 * 24 * 60 * 60;
+  time.week = Math.floor(remaining / (7 * 24 * 60 * 60));
+  remaining %= 7 * 24 * 60 * 60;
+  time.day = Math.floor(remaining / (24 * 60 * 60));
+  remaining %= 24 * 60 * 60;
+  time.hour = Math.floor(remaining / (60 * 60));
+  remaining %= 60 * 60;
+  time.minute = Math.floor(remaining / 60);
+  remaining %= 60;
+
+  // Round seconds to the nearest 0.001
+  time.second = Math.round((remaining + Number.EPSILON) * 1000) / 1000;
+
+  const parts = Object.entries(time)
+    .filter(([_, val]) => val > 0)
+    .map(([unit, val]) => `${val} ${unit}${val !== 1 ? 's' : ''}`);
+
+  return (isNegative ? '-' : '') + (parts.length ? parts.join(', ') : '0 seconds');
+}
