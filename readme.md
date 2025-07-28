@@ -4,7 +4,7 @@
 2. run `npm run conf` for configuration cli. run commands restore, emojisync, cmdsync, startupmsg channel {channelId}, and tagsadmin {userId}. run migratedb if you have previous database stuff
 3. (optional) edit birds.json and data.json and replace the birds with your own. in data.json keep unknown bird
 4. (optional) go into commands/anime/gifs to add/edit/remove anime gifs from the ***-gifs.json files
-5. run `npm start` or `node .` to run the bot
+5. run `npm start` or `node .` to run the bot, or do run in the config cli
 
 auth link for offical bot: https://discord.com/api/oauth2/authorize?client_id=1118256931040149626&permissions=137439333446&scope=bot+applications.commands
 
