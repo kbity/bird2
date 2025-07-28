@@ -1,22 +1,25 @@
 const fs = require('fs');
 const { EmbedBuilder } = require('discord.js');
+const { fileExists } = require('./birdfslib.js');
+let userAchievements = undefined
+let achsFilePath = undefined
 
 class AchievementHandler {
   constructor() {
     this.achievements = JSON.parse(fs.readFileSync('achs.json'));
-    this.userAchievements = JSON.parse(fs.readFileSync('achdb.json'));
   }
 
   grantAchievement(userId, achievementId, context, username = null, overrideUsername = null) {
-    // Reload the user achievements from the file
-    this.userAchievements = JSON.parse(fs.readFileSync('achdb.json'));
+    achsFilePath = `./per_user/${userId}.json`
+    fileExists(achsFilePath)
+    userAchievements = JSON.parse(fs.readFileSync(`./per_user/${userId}.json`));
 
-    if (!this.userAchievements.users[userId]) {
-      this.userAchievements.users[userId] = [];
+    if (!userAchievements.achs) {
+      userAchievements.achs = [];
     }
 
-    if (!this.userAchievements.users[userId].includes(achievementId)) {
-      this.userAchievements.users[userId].push(achievementId);
+    if (!userAchievements.achs.includes(achievementId)) {
+      userAchievements.achs.push(achievementId);
       this.saveUserAchievements();
 
       const achievement = this.getAchievementDetails(achievementId);
@@ -62,11 +65,11 @@ class AchievementHandler {
   }
 
   getUserAchievements(userId) {
-    return this.userAchievements.users[userId] || [];
+    return userAchievements.achs || [];
   }
 
   saveUserAchievements() {
-    fs.writeFileSync('achdb.json', JSON.stringify(this.userAchievements, null, 2));
+    fs.writeFileSync(achsFilePath, JSON.stringify(userAchievements, null, 2));
   }
 
   getAchievementDetails(achievementId) {

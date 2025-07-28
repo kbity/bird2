@@ -1,0 +1,169 @@
+{
+    "fine bird": {
+        "emoji": "<:finebird:1399496723570884618>",
+        "value": 4.658,
+        "type": "bird"
+    },
+    "nice bird": {
+        "emoji": "<:nicebird:1399496738892550254>",
+        "value": 6.655,
+        "type": "bird"
+    },
+    "good bird": {
+        "emoji": "<:goodbird:1399496728520163445>",
+        "value": 7.986,
+        "type": "bird"
+    },
+    "rare bird": {
+        "emoji": "<:rarebird:1399496742293999689>",
+        "value": 10.163,
+        "type": "bird"
+    },
+    "evil bird": {
+        "emoji": "<:evilbird:1361809030468599952>",
+        "value": 12.422,
+        "type": "bird"
+    },
+    "cool bird": {
+        "emoji": "<:coolbird:1399496718445314120>",
+        "value": 13.975,
+        "type": "bird"
+    },
+    "blob bird": {
+        "emoji": "<:blobbird:1399497406596386817>",
+        "value": 15.881,
+        "type": "bird"
+    },
+    "inverse bird": {
+        "emoji": "<:inversebird:1399496730684297357>",
+        "value": 22.36,
+        "type": "bird"
+    },
+    "cartoon bird": {
+        "emoji": "<:cartoonbird:1399497408202674350>",
+        "value": 26.619,
+        "type": "bird"
+    },
+    "grayscale bird": {
+        "emoji": "<:grayscalebird:1386205740561207406>",
+        "value": 37.267,
+        "type": "bird"
+    },
+    "8-bit bird": {
+        "emoji": "<:8bitbird:1399497398799040703>",
+        "value": 50.818,
+        "type": "bird"
+    },
+    "alien bird": {
+        "emoji": "<:alienbird:1399497403161120779>",
+        "value": 79.857,
+        "type": "bird"
+    },
+    "discord bird": {
+        "emoji": "<:discordbird:1399496719661662289>",
+        "value": 93.167,
+        "type": "bird"
+    },
+    "gold bird": {
+        "emoji": "<:goldbird:1399496726683062292>",
+        "value": 107.5,
+        "type": "bird"
+    },
+    "lowteirbird": {
+        "emoji": "<:lowteirbird:1399496732857077891>",
+        "value": 121.522,
+        "type": "bird"
+    },
+    "mari bird": {
+        "emoji": "<:maribird:1399497410211876936>",
+        "value": 139.75,
+        "type": "bird"
+    },
+    "mythic bird": {
+        "emoji": "<:mythicbird:1399496736820564010>",
+        "value": 164.411,
+        "type": "bird"
+    },
+    "professor bird": {
+        "emoji": "<:professorbird:1399496740708814899>",
+        "value": 215,
+        "type": "bird"
+    },
+    "christmas bird": {
+        "emoji": "<:christmasbird:1399496715593191426>",
+        "value": 279.5,
+        "type": "bird"
+    },
+    "amd bird": {
+        "emoji": "<:amdbird:1399497405384228925>",
+        "value": 559,
+        "type": "bird"
+    },
+    "real bird": {
+        "emoji": "<:realbird:1361809083795116093>",
+        "value": 698.75,
+        "type": "bird"
+    },
+    "divine bird": {
+        "emoji": "<:divinebird:1399496721536651396>",
+        "value": 931.667,
+        "type": "bird"
+    },
+    "secret bird": {
+        "emoji": "<:secretbird:1399496744277901425>",
+        "value": 1397.5,
+        "type": "bird"
+    },
+    "mlg bird": {
+        "emoji": "<:mlgbird:1399497412300771388>",
+        "value": 2795,
+        "type": "bird"
+    },
+    "unknown bird": {
+        "emoji": "<:unknownbird:1386210020915679305>",
+        "value": 0,
+        "type": "null"
+    },
+    "icosahedron": {
+        "emoji": "<:Icosahedron:1361809127994687509>",
+        "value": 750,
+        "type": "item",
+        "sold": true
+    },
+    "bird_money": {
+        "emoji": "<:bird_money:1399496690783879191>",
+        "value": 1,
+        "type": "item",
+        "sold": false
+    },
+    "ping": {
+        "emoji": "<:ping:1376208644584243271>",
+        "value": 0,
+        "type": "item",
+        "sold": false
+    },
+    "secret cat": {
+        "emoji": "<:secretcat:1387463429375135774>",
+        "value": 1397,
+        "type": "item",
+        "sold": false
+    },
+    "dark crystal": {
+        "emoji": "<:dark_crystal:1399496746874306661>",
+        "value": 100,
+        "type": "item",
+        "sold": true
+    },
+    "bird food": {
+        "emoji": "<:dark_crystal:1399496746874306661>",
+        "value": 350,
+        "type": "item",
+        "sold": true
+    },
+    "ultimate bird food": {
+        "emoji": "<:dark_crystal:1399496746874306661>",
+        "type": "item",
+        "value": 2000,
+        "sold": true
+    }
+}
