@@ -102,7 +102,7 @@ module.exports = {
             const birdEmoji = birdData[birdType].emoji;
             if (birdType == "mlg bird") {
                  mlgBirds = quantity}
-            if (birdType == "lowteirbird") {
+            if (birdType == "lowtierbird") {
                  descblock = (descblock + `\n${birdEmoji} **${birdType.slice(0, -4)}** ${quantity}`)}
             else {
                 if (inventoryType == "bird") {descblock = (descblock + `\n${birdEmoji} **${birdType.slice(0, -5)}** ${quantity}`)}
