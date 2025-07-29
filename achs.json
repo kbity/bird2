@@ -4,7 +4,7 @@
         "name": "bird",
         "description": "a bird reference holy shit",
         "icon1": "https://cdn.discordapp.com/emojis/1338303859025645702.png",
-        "icon2": "<:bird:1361806005117124740>",
+        "icon2": "<:bird:1338303859025645702>",
         "catagory": "miscellaneous"
     },
     {
@@ -12,7 +12,7 @@
         "name": "first catch",
         "description": "catch a bird",
         "icon1": "https://cdn.discordapp.com/emojis/1359303302923424016.png",
-        "icon2": "<:birdtrophie:1361808463487045814>",
+        "icon2": "<:birdtrophie:1359303302923424016>",
         "catagory": "bird hunt"
     },
     {
@@ -20,7 +20,7 @@
         "name": "Progressbird95",
         "description": "complete progressbird95",
         "icon1": "https://cdn.discordapp.com/emojis/1359303166214013040.png",
-        "icon2": "<:pb95:1361808506679984428>",
+        "icon2": "<:pb95:1359303166214013040>",
         "catagory": "game"
     },
     {
@@ -28,7 +28,7 @@
         "name": "website",
         "description": "bird!i_visited_website",
         "icon1": "https://cdn.discordapp.com/emojis/1359303399778160740.png",
-        "icon2": "<:maricom:1361808540528021726>",
+        "icon2": "<:maricom:1359303399778160740>",
         "catagory": "miscellaneous"
     },
     {
@@ -36,7 +36,7 @@
         "name": "cute mari",
         "description": "by using this bot you agree to the following terms",
         "icon1": "https://cdn.discordapp.com/emojis/1359303522029539519.png",
-        "icon2": "<:patthemari:1361808575768432672>",
+        "icon2": "<:patthemari:1359303522029539519>",
         "catagory": "miscellaneous"
     },
     {
@@ -44,15 +44,15 @@
         "name": "MARILINK",
         "description": "chatting across servers is fun",
         "icon1": "https://cdn.discordapp.com/emojis/1359303573070020810.png",
-        "icon2": "<:marilink:1361808607997329418>",
+        "icon2": "<:marilink:1359303573070020810>",
         "catagory": "miscellaneous"
     },
     {
         "id": 7,
         "name": "rated 5 stars on maricom",
         "description": "use /rate",
-        "icon1": "https://cdn.discordapp.com/emojis/1399510741437911232.png",
-        "icon2": "<:fullStar:1399510741437911232>",
+        "icon1": "https://cdn.discordapp.com/emojis/1338303866164215839.png",
+        "icon2": "<:fullStar:1399538307167162508>",
         "catagory": "command"
     },
     {
@@ -60,7 +60,7 @@
         "name": "minesweeper",
         "description": "just like... bosnia",
         "icon1": "https://cdn.discordapp.com/emojis/1338303853858390026.png",
-        "icon2": "<:sweeperguycool:1361805995130749249>",
+        "icon2": "<:sweeperguycool:1338303853858390026>",
         "catagory": "game"
     },
     {
@@ -68,7 +68,7 @@
         "name": "mrrp mrow",
         "description": "nekos are the best",
         "icon1": "https://cdn.discordapp.com/emojis/1359303200389333042.png",
-        "icon2": "<:meowrderous_intent:1361808726046019956>",
+        "icon2": "<:meowrderous_intent:1359303200389333042>",
         "catagory": "command"
     },
     {
@@ -76,7 +76,7 @@
         "name": "donater",
         "description": "gift someone birds",
         "icon1": "https://cdn.discordapp.com/emojis/1359303896949850172.png",
-        "icon2": "<:birdarrow:1361808766034513920>",
+        "icon2": "<:birdarrow:1359303896949850172>",
         "catagory": "bird hunt"
     },
     {
@@ -84,7 +84,7 @@
         "name": "donation fraud",
         "description": "get someone's birds",
         "icon1": "https://cdn.discordapp.com/emojis/1359303963043827852.png",
-        "icon2": "<:inbird:1361808817725116490>",
+        "icon2": "<:inbird:1359303963043827852>",
         "catagory": "bird hunt"
     },
     {
@@ -92,7 +92,7 @@
         "name": "not quite",
         "description": "wrong animal",
         "icon1": "https://cdn.discordapp.com/emojis/1359303144944701581.png",
-        "icon2": "<:wronganimal:1361808852374519828>",
+        "icon2": "<:wronganimal:1359303144944701581>",
         "catagory": "miscellaneous"
     },
     {
@@ -100,15 +100,15 @@
         "name": "a complete collection",
         "description": "own at least one of each bird",
         "icon1": "https://cdn.discordapp.com/emojis/1359303188439765154.png",
-        "icon2": "<:mlgtrophie:1361808906300424292>",
+        "icon2": "<:mlgtrophie:1359303188439765154>",
         "catagory": "bird hunt"
     },
     {
         "id": 14,
         "name": "many birds",
         "description": "100+ birds",
-        "icon1": "https://cdn.discordapp.com/emojis/1359304072456568853.png",
-        "icon2": "<:goldtrophie:1399510738774528091>",
+        "icon1": "https://cdn.discordapp.com/emojis/1399538299177013459.png",
+        "icon2": "<:goldtrophie:1399538299177013459>",
         "catagory": "bird hunt"
     },
     {
@@ -116,15 +116,15 @@
         "name": "grass",
         "description": "get gardened",
         "icon1": "https://cdn.discordapp.com/emojis/1359304110985183412.png",
-        "icon2": "<:grass:1361808997723672576>",
+        "icon2": "<:grass:1359304110985183412>",
         "catagory": "command"
     },
     {
         "id": 16,
         "name": "EVIL MFS",
         "description": "say 'evil mfs' when an evil bird spawns",
-        "icon1": "https://cdn.discordapp.com/emojis/1359304165372723291.png",
-        "icon2": "<:evilbird:1361809030468599952>",
+        "icon1": "https://cdn.discordapp.com/emojis/1399881315490463846.png",
+        "icon2": "<:evilbird:1399882154271440907>",
         "catagory": "miscellaneous"
     },
     {
@@ -132,7 +132,7 @@
         "name": "random bird wow",
         "description": "use /random to see a random bird",
         "icon1": "https://cdn.discordapp.com/emojis/1359326722788688004.png",
-        "icon2": "<:realbird:1361809083795116093>",
+        "icon2": "<:realbird:1359326722788688004>",
         "catagory": "command"
     },
     {
@@ -140,7 +140,7 @@
         "name": "polyhedron store",
         "description": "hello welcome to abotminbnr",
         "icon1": "https://cdn.discordapp.com/emojis/1359329518850015314.png",
-        "icon2": "<:Icosahedron:1361809127994687509>",
+        "icon2": "<:Icosahedron:1359329518850015314>",
         "catagory": "miscellaneous"
     },
     {
@@ -148,7 +148,7 @@
         "name": "small collection",
         "description": "10 of the feathery things",
         "icon1": "https://cdn.discordapp.com/emojis/1362275171297398916.png",
-        "icon2": "<:blobtrophie:1361839248206200923>",
+        "icon2": "<:blobtrophie:1362275171297398916>",
         "catagory": "bird hunt"
     },
     {
@@ -156,7 +156,7 @@
         "name": "way too many birds",
         "description": "you're collecting so many, stop!",
         "icon1": "https://cdn.discordapp.com/emojis/1362275219871629514.png",
-        "icon2": "<:divinetrophie:1361809783941894184>",
+        "icon2": "<:divinetrophie:1362275219871629514>",
         "catagory": "bird hunt"
     },
     {
@@ -164,7 +164,7 @@
         "name": "seriously?",
         "description": "get a life",
         "icon1": "https://cdn.discordapp.com/emojis/1362275263710367774.png",
-        "icon2": "<:secrettrophie:1361838488722608179>",
+        "icon2": "<:secrettrophie:1362275263710367774>",
         "catagory": "unfair"
     },
     {
@@ -172,7 +172,7 @@
         "name": "dealmaker",
         "description": "complete a trade",
         "icon1": "https://cdn.discordapp.com/emojis/1362275303447068722.png",
-        "icon2": "<:dealoffer:1362212268850544731>",
+        "icon2": "<:dealoffer:1362275303447068722>",
         "catagory": "miscellaneous"
     },
     {
@@ -180,7 +180,7 @@
         "name": "MLG Baron",
         "description": "Collect 3 MLG birds",
         "icon1": "https://cdn.discordapp.com/emojis/1374897224667893770.png",
-        "icon2": "<:mlgbaron:1399496697591107666>",
+        "icon2": "<:mlgbaron:1374897224667893770>",
         "catagory": "unfair"
     },
     {
@@ -188,7 +188,7 @@
         "name": "Fast Catch!",
         "description": "Catch a bird in 15 seconds or less",
         "icon1": "https://cdn.discordapp.com/emojis/1374902147182891031.png",
-        "icon2": "<:fastcatch:1399496694508421170>",
+        "icon2": "<:fastcatch:1374902147182891031>",
         "catagory": "bird hunt"
     },
     {
@@ -196,7 +196,7 @@
         "name": "Slooooow catch",
         "description": "Catch a bird after an hour or more",
         "icon1": "https://cdn.discordapp.com/emojis/1374903601155276901.png",
-        "icon2": "<:slowcatch:1399496703547281660>",
+        "icon2": "<:slowcatch:1374903601155276901>",
         "catagory": "bird hunt"
     },
     {
@@ -204,7 +204,7 @@
         "name": "Don't you know that Property is Theft?",
         "description": "attempt to force bird to give you birds",
         "icon1": "https://cdn.discordapp.com/emojis/1385459795871666330.png",
-        "icon2": "<:propertyistheft:1399496700581908561>",
+        "icon2": "<:propertyistheft:1385459795871666330>",
         "catagory": "command"
     },
     {
@@ -212,7 +212,7 @@
         "name": "slash bird",
         "description": "run /bird. why.",
         "icon1": "https://cdn.discordapp.com/emojis/1338303859025645702.png",
-        "icon2": "<:bird:1361806005117124740>",
+        "icon2": "<:bird:1338303859025645702>",
         "catagory": "command"
     },
     {
@@ -220,7 +220,7 @@
         "name": "plant versus zombie",
         "description": "this was rech's idea",
         "icon1": "https://cdn.discordapp.com/emojis/1386104077204721805.png",
-        "icon2": "<:pvz:1399496702297378980>",
+        "icon2": "<:pvz:1386104077204721805>",
         "catagory": "command"
     },
     {
@@ -228,7 +228,7 @@
         "name": "version control",
         "description": "bird 2.4.3 was a good update imo",
         "icon1": "https://cdn.discordapp.com/emojis/1386105581751898163.png",
-        "icon2": "<:v_golden:1399496704855642122>",
+        "icon2": "<:v_golden:1386105581751898163>",
         "catagory": "command"
     },
     {
@@ -236,7 +236,7 @@
         "name": "thanks!",
         "description": "give birds to me",
         "icon1": "https://cdn.discordapp.com/emojis/1389021704260681947.png",
-        "icon2": "<:bird_thumbs:1399496693237416129>",
+        "icon2": "<:bird_thumbs:1389021704260681947>",
         "catagory": "miscellaneous"
     },
     {
@@ -244,7 +244,7 @@
         "name": "R I C H",
         "description": "gift 5 divines to bird",
         "icon1": "https://cdn.discordapp.com/emojis/1389021036816896021.png",
-        "icon2": "<:picardia_rich:1399496698916507828>",
+        "icon2": "<:picardia_rich:1389021036816896021>",
         "catagory": "unfair"
     },
     {
@@ -252,7 +252,7 @@
         "name": "one-way banking",
         "description": "sell a bird for bird money",
         "icon1": "https://cdn.discordapp.com/emojis/1374532436343652364.png",
-        "icon2": "<:bird_money:1399496690783879191>",
+        "icon2": "<:bird_money:1374532436343652364>",
         "catagory": "miscellaneous"
     },
     {
@@ -260,7 +260,7 @@
         "name": "tema5002bnr",
         "description": "sorry mari2 but i cannot fulfil this request because i am aroace",
         "icon1": "https://cdn.discordapp.com/emojis/1398874199539323021.png",
-        "icon2": "<:aroace:1399496688590258217>",
+        "icon2": "<:aroace:1398874199539323021>",
         "catagory": "miscellaneous"
     }
 ]
