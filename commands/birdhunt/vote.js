@@ -14,6 +14,7 @@ module.exports = {
   async execute(interaction) {
     if (tggtoken === "None") {
         await interaction.reply(`Voting Disabled.\n[Vote here if you'd like'](https://top.gg/bot/1118256931040149626/vote>)`);
+        return
     }
     await interaction.deferReply()
     const userId = interaction.user.id;
