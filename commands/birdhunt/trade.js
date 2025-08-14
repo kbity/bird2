@@ -48,6 +48,12 @@ module.exports = {
         const sentItems = interaction.options.getString('sent') || "fine bird x0";
         const receiveItems = interaction.options.getString('receive') || "fine bird x0";
 
+        if (sender == target) {
+            await interaction.reply(`sorry ${interaction.user.username} but i cannot fulfil this request because i am aroace`);
+            const achievementGranted = achHandler.grantAchievement(interaction.user.id, 33, interaction);
+            return;
+        }
+
         const inventoryA = await loadInventories(sender.id);
         const inventoryB = await loadInventories(target.id);
         const senderInventory = inventoryA.get("bird") || {};
