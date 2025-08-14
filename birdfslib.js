@@ -75,7 +75,7 @@ async function saveInventories(userId, inventories) {
     await saveJsonFile(filePath, Object.fromEntries(inventories));
 }
 
-const version = "v2.4.3"
+const version = "v2.4.3b"
 
 module.exports = {
     loadJsonFile,
