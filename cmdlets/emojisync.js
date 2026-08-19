@@ -41,85 +41,90 @@ client.once('ready', async () => {
 
     const existingEmojiMap = new Map(existingEmojis.map(e => [e.name, e.id]));
 
-    function emojiCode(name, id) {
-        return `<:${name}:${id}>`;
+// Modify emojiCode to accept animated flag
+function emojiCode(name, id, animated = false) {
+    return animated ? `<a:${name}:${id}>` : `<:${name}:${id}>`;
+}
+
+// Update updateAllEmojiRefs to detect and replace both static and animated emoji references
+function updateAllEmojiRefs(name, id, animated = false) {
+    const full = emojiCode(name, id, animated);
+    const key = name.replace(/_/g, '');
+
+    // Update config.emojis
+    if (config.emojis?.[key] !== undefined) {
+        if (/^[0-8]$/.test(key) || key === 'mine') {
+            config.emojis[key] = `||${full}||`;
+        } else {
+            config.emojis[key] = full;
+        }
     }
 
-    function updateAllEmojiRefs(name, id) {
-        const full = emojiCode(name, id);
-
-        // config.emojis
-        const key = name.replace(/_/g, '');
-        if (config.emojis?.[key] !== undefined) {
-            if (/^[0-8]$/.test(key) || key === 'mine') {
-                config.emojis[key] = `||${full}||`;
-            } else {
-                config.emojis[key] = full;
-            }
-        }
-
-        // data.json
-        for (const entry of Object.values(data)) {
-            if (entry.emoji?.startsWith(`<:${name}:`)) {
-                entry.emoji = full;
-            }
-        }
-
-        // birds.json
-        for (const bird of birds) {
-            if (bird.emoji?.startsWith(`<:${name}:`)) {
-                bird.emoji = full;
-            }
-        }
-
-        // achs.json
-        for (const ach of achs) {
-            if (ach.icon2?.startsWith(`<:${name}:`)) {
-                ach.icon2 = full;
+    // Helper to replace emoji references starting with either <:name: or <a:name:
+    function replaceEmojiRefs(obj, prop) {
+        for (const item of obj) {
+            if (item[prop]?.startsWith(`<:${name}:`) || item[prop]?.startsWith(`<a:${name}:`)) {
+                item[prop] = full;
             }
         }
     }
 
-    async function syncEmojisFromDir(dirPath) {
-        const files = fs.readdirSync(dirPath);
-        for (const file of files) {
-            if (!/\.(png|jpg|gif)$/i.test(file)) continue;
+    // Update data.json (it's an object, so iterate values)
+    for (const entry of Object.values(data)) {
+        if (entry.emoji?.startsWith(`<:${name}:`) || entry.emoji?.startsWith(`<a:${name}:`)) {
+            entry.emoji = full;
+        }
+    }
 
-            const emojiName = path.basename(file, path.extname(file));
-            const ext = path.extname(file).slice(1);
+    // Update birds.json
+    replaceEmojiRefs(birds, 'emoji');
 
-            if (existingEmojiMap.has(emojiName)) {
-                const id = existingEmojiMap.get(emojiName);
-                console.log(`↪️  Already exists: ${emojiName}`);
-                updateAllEmojiRefs(emojiName, id);
-                continue;
-            }
+    // Update achs.json (icon2 property)
+    replaceEmojiRefs(achs, 'icon2');
+}
 
-            const fileData = fs.readFileSync(path.join(dirPath, file));
-            const base64 = Buffer.from(fileData).toString('base64');
+async function syncEmojisFromDir(dirPath) {
+    const files = fs.readdirSync(dirPath);
+    for (const file of files) {
+        if (!/\.(png|jpg|gif)$/i.test(file)) continue;
 
-            try {
-                const res = await axios.post(
-                    `https://discord.com/api/v9/applications/${config.clientId}/emojis`,
-                    {
-                        name: emojiName,
-                        image: `data:image/${ext};base64,${base64}`
-                    },
-                    {
-                        headers: {
-                            Authorization: `Bot ${config.token}`,
-                            'Content-Type': 'application/json'
-                        }
+        const emojiName = path.basename(file, path.extname(file));
+        const ext = path.extname(file).slice(1).toLowerCase();
+
+        const animated = ext === 'gif';
+
+        if (existingEmojiMap.has(emojiName)) {
+            const id = existingEmojiMap.get(emojiName);
+            console.log(`↪️  Already exists: ${emojiName}`);
+            updateAllEmojiRefs(emojiName, id, animated);
+            continue;
+        }
+
+        const fileData = fs.readFileSync(path.join(dirPath, file));
+        const base64 = Buffer.from(fileData).toString('base64');
+
+        try {
+            const res = await axios.post(
+                `https://discord.com/api/v9/applications/${config.clientId}/emojis`,
+                {
+                    name: emojiName,
+                    image: `data:image/${ext};base64,${base64}`
+                },
+                {
+                    headers: {
+                        Authorization: `Bot ${config.token}`,
+                        'Content-Type': 'application/json'
                     }
-                );
-                const newId = res.data.id;
-                console.log(`✅ Uploaded: ${emojiName} → ${newId}`);
-                updateAllEmojiRefs(emojiName, newId);
-            } catch (err) {
-                console.error(`❌ Failed to upload ${emojiName}:`, err.response?.data || err.message);
-            }
+                }
+            );
+            const newId = res.data.id;
+            console.log(`✅ Uploaded: ${emojiName} → ${newId}`);
+            updateAllEmojiRefs(emojiName, newId, animated);
+        } catch (err) {
+            console.error(`❌ Failed to upload ${emojiName}:`, err.response?.data || err.message);
         }
     }
+}
 
     const emojiDirs = fs.readdirSync(emojisFolderPath, { withFileTypes: true })
         .filter(dirent => dirent.isDirectory())

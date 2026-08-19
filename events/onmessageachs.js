@@ -7,14 +7,10 @@ module.exports = {
     name: Events.MessageCreate,
     once: false,
     execute(message) {
+        if (message.webhookId) return;
+
         if (message.content.toLowerCase() === 'mari!sex') {
             message.channel.send("👁️ **attention!** 👁️\n👺 {you have} **insulted the president of chicken coop** 👺\n🚶‍♀️ {please} **leave the premises at once** 🚶‍♂️\n💩👹👾 {or face the might of our nuclear arsenal} 💩👹👾");
-        }
-
-        if (message.content.toLowerCase().includes('bird')) {
-            message.react(emojis.bird);
-            const userId = message.author.id;
-            const achievementGranted = achHandler.grantAchievement(userId, 1, message);
         }
 
         if (message.content.toLowerCase().includes('quine')) {

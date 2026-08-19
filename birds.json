@@ -7,51 +7,63 @@
     {
         "emoji": "<:nicebird:1386203818873716806>",
         "name": "Nice bird",
-        "weight": 420
+        "weight": 420,
+        "color": "#ffa633"
     },
     {
-        "emoji": "<:goodbird:1386205251190788197>",
+        "emoji": "<:goodbird:1408261099450535956>",
         "name": "Good bird",
-        "weight": 350
+        "weight": 350,
+        "color": "#646464"
     },
     {
         "emoji": "<:rarebird:1386203665425105016>",
         "name": "Rare bird",
-        "weight": 275
+        "weight": 275,
+        "color": "#30f0f0"
     },
     {
         "emoji": "<:evilbird:1399882154271440907>",
         "name": "Evil bird",
-        "weight": 225
+        "weight": 225,
+        "color": "#ff4f4f"
     },
     {
         "emoji": "<:coolbird:1398176541015539742>",
         "name": "Cool bird",
-        "weight": 200
+        "weight": 200,
+        "color": "#f9793e"
     },
     {
         "emoji": "<:blobbird:1386205731677540434>",
         "name": "Blob bird",
         "weight": 176,
         "catchmsg": "`${user.username} has finally caught ${caughtDescriptions}!!\nIt seriously took you  ${formatCatchTime(catchTime)}? Wow.\n`",
-        "countmsg": "`*rolls eyes* You have ${inventory[b.name.toLowerCase()]} ${b.name}s? that was completely unnecessary and uncalled for.`"
+        "countmsg": "`*rolls eyes* You have ${inventory[b.name.toLowerCase()]} ${b.name}s? that was completely unnecessary and uncalled for.`",
+        "color": "#ffd500"
     },
     {
         "emoji": "<:inversebird:1386205175592783993>",
         "name": "Inverse bird",
         "weight": 125,
         "catchmsg": "`${user.username} szh xzftsg ${caughtDescriptions}!!\nxzgxsrmt gllp ${formatCatchTime(catchTime)}!!\n`",
-        "countmsg": "`blf mld szev ${inventory[b.name.toLowerCase()]} ${b.name}s!!`"
+        "countmsg": "`blf mld szev ${inventory[b.name.toLowerCase()]} ${b.name}s!!`",
+        "color": "#04a0bb",
+        "class": "uncommon"
     },
     {
         "emoji": "<:cartoonbird:1386205690221170798>",
         "name": "Cartoon bird",
-        "weight": 105
+        "weight": 105,
+        "color": "#db8129",
+        "class": "uncommon"
     },
     {
         "emoji": "<:grayscalebird:1386205740561207406>",
         "name": "Grayscale bird",
-        "weight": 75
+        "weight": 75,
+        "color": "#a6a6a6",
+        "class": "uncommon"
     },
     {
         "emoji": "<:8bitbird:1386237254308986910>",
@@ -59,81 +71,109 @@
         "weight": 55,
         "spawnImg": "https://cdn.discordapp.com/emojis/1386237254308986910.png?size=128",
         "catchmsg": "`${user.username.toUpperCase()} H4S C4UGHT ${caughtDescriptions.toUpperCase()}\nC4TCH1NG T00K ${formatCatchTime(catchTime).toUpperCase()}\n`",
-        "countmsg": "`Y0U N0W H4VE ${inventory[b.name]} ${b.name.toUpperCase()}S`"
+        "countmsg": "`Y0U N0W H4VE ${inventory[b.name]} ${b.name.toUpperCase()}S`",
+        "color": "#7f0000",
+        "class": "uncommon"
     },
     {
         "emoji": "<:alienbird:1386205756956610560>",
         "name": "Alien bird",
         "weight": 35,
         "catchmsg": "`${user.username} xeep snorped ${caughtDescriptions}!!\nZeet catching znoke ${formatCatchTime(catchTime)}!!\n`",
-        "countmsg": "`Zeep Zorp own ${inventory[b.name.toLowerCase()]} ${b.name}!!`"
+        "countmsg": "`Zeep Zorp own ${inventory[b.name.toLowerCase()]} ${b.name}!!`",
+        "color": "#00fa00",
+        "class": "uncommon"
     },
     {
         "emoji": "<:discordbird:1386205419801804931>",
         "name": "Discord bird",
         "weight": 30,
-        "catchmsg": "`ping! ${user.username} has caught ${caughtDescriptions}!!\nit took you ${formatCatchTime(catchTime)} to respond!!\n`"
+        "catchmsg": "`ping! ${user.username} has caught ${caughtDescriptions}!!\nit took you ${formatCatchTime(catchTime)} to respond!!\n`",
+        "color": "#5865f2",
+        "class": "uncommon"
     },
     {
         "emoji": "<:goldbird:1398385196713250948>",
         "name": "Gold bird",
-        "weight": 26
+        "weight": 26,
+        "color": "#c3b710",
+        "class": "rare"
     },
     {
         "emoji": "<:lowtierbird:1386204922961199174>",
         "name": "LowTierBird",
         "weight": 23,
         "catchmsg": "`${user.username}  should bird themself, NOW ⚡\n They caught${caughtDescriptions}!!\ncatching took them ${formatCatchTime(catchTime)} of wasting our oxygen and ozone in our blue trapped bubble!!\n`",
-        "countmsg": "`Your ${inventory[b.name.toLowerCase()]} ${b.name}s are worth NOTHING, They serve ZERO purpose!`"
+        "countmsg": "`Your ${inventory[b.name.toLowerCase()]} ${b.name}s are worth NOTHING, They serve ZERO purpose!`",
+        "color": "#846aac",
+        "class": "rare"
     },
     {
         "emoji": "<:maribird:1386204747815456910>",
         "name": "Mari bird",
-        "weight": 20
+        "weight": 20,
+        "color": "#0000ff",
+        "class": "rare"
     },
     {
         "emoji": "<:mythicbird:1386204593335173252>",
         "name": "Mythic bird",
-        "weight": 17
+        "weight": 17,
+        "color": "#83b3d8",
+        "class": "rare"
     },
     {
         "emoji": "<:professorbird:1398381488520691802>",
         "name": "Professor bird",
         "weight": 13,
         "catchmsg": "`${user.username} hast cought ${caughtDescriptions}.\nthy catching took place after ${formatCatchTime(catchTime)}.\n`",
-        "countmsg": "`Thou now hast ${inventory[b.name.toLowerCase()]} ${b.name}s.`"
+        "countmsg": "`Thou now hast ${inventory[b.name.toLowerCase()]} ${b.name}s.`",
+        "color": "#ffd802",
+        "class": "rare"
     },
     {
         "emoji": "<:christmasbird:1386205652489207888>",
         "name": "Christmas bird",
-        "weight": 10
+        "weight": 10,
+        "color": "#fe1922",
+        "class": "rare"
     },
     {
         "emoji": "<:superiorbird:1399878945255587952>",
         "name": "Superior bird",
-        "weight": 5
+        "weight": 5,
+        "color": "#48e9b3",
+        "class": "epic"
     },
     {
         "emoji": "<:realbird:1359326722788688004>",
         "name": "Real bird",
         "weight": 4,
-        "catchmsg": "`${user.username} has captured ${caughtDescriptions}!!\ncatching took ${formatCatchTime(catchTime)} to get real.\n`"
+        "catchmsg": "`${user.username} has captured ${caughtDescriptions}!!\ncatching took ${formatCatchTime(catchTime)} to get real.\n`",
+        "color": "#ebecee",
+        "class": "epic"
     },
     {
         "emoji": "<:divinebird:1386205363996594317>",
         "name": "Divine bird",
-        "weight": 3
+        "weight": 3,
+        "color": "#e8ffff",
+        "class": "epic"
     },
     {
         "emoji": "<:secretbird:1386203434574811257>",
         "name": "Secret bird",
-        "weight": 2
+        "weight": 2,
+        "color": "#000000",
+        "class": "epic"
     },
     {
         "emoji": "<:mlgbird:1386204705558102199>",
         "name": "MLG bird",
         "weight": 1,
         "catchmsg": "`${user.username} has 360 noscoped ${caughtDescriptions}!!\nthe Illuminati waited for ${formatCatchTime(catchTime)}!!\n`",
-        "countmsg": "`you now have ${inventory[b.name.toLowerCase()]} ${b.name}s!! very wow!`"
+        "countmsg": "`you now have ${inventory[b.name.toLowerCase()]} ${b.name}s!! very wow!`",
+        "color": "#ff00ff",
+        "class": "epic"
     }
 ]

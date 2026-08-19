@@ -10,7 +10,7 @@
         "type": "bird"
     },
     "good bird": {
-        "emoji": "<:goodbird:1386205251190788197>",
+        "emoji": "<:goodbird:1408261099450535956>",
         "value": 7.986,
         "type": "bird"
     },
@@ -142,12 +142,6 @@
         "type": "item",
         "sold": false
     },
-    "secret cat": {
-        "emoji": "<:secretcat:1387463429375135774>",
-        "value": 1397,
-        "type": "item",
-        "sold": false
-    },
     "dark crystal": {
         "emoji": "<:dark_crystal:1389314012461928669>",
         "value": 100,
@@ -155,15 +149,15 @@
         "sold": true
     },
     "bird food": {
-        "emoji": "<:dark_crystal:1389314012461928669>",
+        "emoji": "<:bird_food:1512633111043899412>",
         "value": 350,
         "type": "item",
         "sold": true
     },
     "ultimate bird food": {
-        "emoji": "<:dark_crystal:1389314012461928669>",
+        "emoji": "<:ultimate_bird_food:1512633111932829927>",
         "type": "item",
-        "value": 2000,
+        "value": 1150,
         "sold": true
     }
 }

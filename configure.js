@@ -43,6 +43,7 @@ function initializeConfig() {
         const defaultConfig = {
             "token": "(Unconfigured!)",
             "tggtoken": "None",
+            "feedback_webhook": "None",
             "clientId": "(Unconfigured!)",
             "startupMessageChannel": "(Unconfigured!)",
             "tagsAdmin": "(Unconfigured!)",
@@ -80,10 +81,14 @@ function initializeConfig() {
                 "lblu": "(Unconfigured!)",
                 "gree": "(Unconfigured!)",
                 "catch": "(Unconfigured!)",
+                "catchuc": "(Unconfigured!)",
+                "catchra": "(Unconfigured!)",
+                "catchep": "(Unconfigured!)",
                 "bird": "(Unconfigured!)",
                 "fail": "(Unconfigured!)",
                 "professor": "(Unconfigured!)",
-                "wronganimal": "(Unconfigured!)"
+                "wronganimal": "(Unconfigured!)",
+                "unknown_ach": "(Unconfigured!)"
             }
         };
         fs.writeFileSync(configPath, JSON.stringify(defaultConfig, null, 4));

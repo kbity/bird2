@@ -20,11 +20,11 @@ module.exports = {
         let presenceInterval = setInterval(() => {
             client.user.setPresence({
                 activities: [{ 
-                    name: `bird ${version}`,
+                    name: `${client.guilds.cache.size} servers | bird ${version} BETA`,
                     type: ActivityType.Custom 
                 }],
                 status: 'online'
             });
-        }, 1000);
+        }, 10000);
     },
 };

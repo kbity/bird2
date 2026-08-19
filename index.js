@@ -17,6 +17,28 @@ const { emojis, token } = require('./config.json');
 const { loadChannels, saveChannels, loadJsonFile } = require('./birdfslib');
 const client = new Client({ intents: [ GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent, GatewayIntentBits.GuildMembers ] });
 
+const DEAD_CHANNEL_ERRORS = new Set([
+    10003, // Unknown Channel
+    50001, // Missing Access
+    50013, // Missing Permissions
+]);
+
+const DEAD_USER_ERRORS = new Set([
+    50278, // No Mutual Guilds
+    50007, // Generic Cannot Message user
+]);
+
+if (!fs.existsSync('./per_server')){
+    fs.mkdirSync('./per_server');
+}
+if (!fs.existsSync('./per_user')){
+    fs.mkdirSync('./per_user');
+}
+
+function hexToInt(hex) {
+    return parseInt(hex.replace('#', ''), 16);
+}
+
 client.commands = new Collection();
 
 // Load commands from files
@@ -86,11 +108,20 @@ async function spawnBirds() {
                     if (!channelData.spawnTimestamp || channelData.spawnTimestamp > now) continue;
 
                     // Attempt to fetch the channel.
-                    const channel = await client.channels.fetch(channelId).catch(err => {
-                        console.error(`[SPAWN] Error fetching channel ${channelId}:`, err);
-                        return null;
-                    });
-                    if (!channel) continue;
+const channel = await client.channels.fetch(channelId).catch(async err => {
+    if (DEAD_CHANNEL_ERRORS.has(err.code)) {
+        console.log(`[SPAWN] Removing inaccessible channel ${channelId} (${err.code})`);
+
+        channels.delete(channelId);
+        await saveChannels(file.slice(0, -5), channels);
+    } else {
+        console.error(`[SPAWN] Error fetching channel ${channelId}:`, err);
+    }
+
+    return null;
+});
+
+if (!channel) continue;
 
                     // Weighted random selection.
                     const totalWeight = birds.reduce((acc, bird) => acc + bird.weight, 0);
@@ -128,6 +159,10 @@ async function spawnBirds() {
                     // Format embed(s).
                     const embeds = selectedBirds.map(bird => {
                         let birdicon;
+                        let birdcolor = '#fb5f44';
+                        if (typeof bird.color !== "undefined") {
+                            birdcolor = bird.color
+                        }
                         if (typeof bird.spawnImg !== "undefined") {
                             birdicon = {
                                 url: bird.spawnImg
@@ -147,7 +182,7 @@ async function spawnBirds() {
                             title: `${bird.emoji} ${bird.name} has appeared!`,
                             description: 'Type "bird" to catch it!',
                             image: birdicon,
-                            color: 0xfb5f44
+                            color: hexToInt(birdcolor)
                         };
                     });
 
@@ -174,10 +209,80 @@ async function spawnBirds() {
     }
 }
 
+let isSendingReminders = false;
+
+async function sendDueReminders() {
+  if (isSendingReminders) return; // skip if still running
+  isSendingReminders = true;
+  const now = Date.now();
+
+  // Loop all files in ./per_user directory
+  for (const file of fs.readdirSync('./per_user')) {
+    if (!file.endsWith('.json')) continue;
+
+    const userId = file.slice(0, -5);
+
+    // Load the user data JSON file (assuming JSON with a reminders object inside)
+    let userData;
+    try {
+      const raw = await fs.promises.readFile(path.join('./per_user', file), 'utf-8');
+      userData = JSON.parse(raw);
+    } catch (err) {
+      console.error(`[REMINDERS] Failed to read or parse ${file}:`, err);
+      continue;
+    }
+
+    if (!userData.reminders) continue; // no reminders key
+
+    const reminders = userData.reminders;
+
+    // We'll collect keys to remove after sending
+    const remindersToRemove = [];
+
+    // Loop reminders
+    for (const [reminderId, reminder] of Object.entries(reminders)) {
+      if (reminder.time <= now) {
+        // Send reminder to user
+        try {
+          const user = await client.users.fetch(userId);
+          const dmChannel = await user.createDM(); // force DM channel open
+          await dmChannel.send(`# ⏰\n${reminder.reason}`);
+          remindersToRemove.push(reminderId);
+        } catch (err) {
+          if (DEAD_USER_ERRORS.has(err.code)) {
+              remindersToRemove.push(reminderId);
+              console.error(`[REMINDERS] Failed to send reminder to ${userId} due to user error, discarding...`)
+          } else {
+          console.error(`[REMINDERS] Failed to send reminder to ${userId}:`, err)}
+        }
+      }
+    }
+
+    // Remove sent reminders
+    for (const id of remindersToRemove) {
+      delete reminders[id];
+    }
+
+    // Save updated data if any reminders removed
+    if (remindersToRemove.length > 0) {
+      try {
+        await fs.promises.writeFile(
+          path.join('./per_user', file),
+          JSON.stringify(userData, null, 2),
+          'utf-8'
+        );
+      } catch (err) {
+        console.error(`[REMINDERS] Failed to save updated reminders for ${userId}:`, err);
+      }
+    }
+  }
+  isSendingReminders = false;
+}
+
 // Increase interval to reduce potential spamming due to lag
-// Set interval to 10 seconds (10000ms) instead of 1 second
+// Set interval to 3 seconds
 setInterval(spawnBirds, 3000);
-// setInterval(spawnBirds, 10000);
+setInterval(sendDueReminders, 10000);
 
 // Login the client with token
 client.login(token);

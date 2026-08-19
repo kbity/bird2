@@ -11,10 +11,16 @@ const {
     birdsFilePath
 } = require('../birdfslib');
 
+const birdtypos = ["bieds", "bied", "biresd", "bir", "brd", "birdd", "brid", "ird", "bid", "nird", "bord", "biod", "bir]d", "biod", "burd", "birod", "bitk", "birde", "birkd", "bikdf", "bigftke", "biord", "bdirc", "brid:", "bire", "birf", "bitd", "bitf", "vird", "birr", "birs", "gird", "bies", "bird\\", "hbird", "тщка"]
+
 module.exports = {
     name: Events.MessageCreate,
     once: false,
     async execute(message) {
+        if (birdtypos.includes(message.content.toLowerCase())) {
+            achHandler.grantAchievement(message.author.id, 36, message);
+        }
+
         if (message.content.toLowerCase() === 'cat') {
             const channels = await loadChannels(message.guild.id);
             const channelId = message.channel.id;
@@ -22,6 +28,15 @@ module.exports = {
             if (channelData && channelData.birdPresent) {
                 await message.react(emojis.wronganimal)
                 achHandler.grantAchievement(message.author.id, 12, message);
+            }
+        }
+
+        if (message.content === 'The bird flew away!') {
+            const channels = await loadChannels(message.guild.id);
+            const channelId = message.channel.id;
+            const channelData = channels.get(channelId);
+            if (channelData && channelData.birdPresent) {
+                achHandler.grantAchievement(message.author.id, 37, message);
             }
         }
 
@@ -40,17 +55,36 @@ module.exports = {
             const channelData = channels.get(channelId);
             if (channelData?.birdPresent && channelData.currentBird?.name.toLowerCase() === 'professor bird') {
                 await message.reply("https://youtu.be/frorGTdQBkI");
+                achHandler.grantAchievement(message.author.id, 41, message);
+            }
+        }
+
+        if (message.content.toLowerCase().includes(' bird')) {
+            const channels = await loadChannels(message.guild.id);
+            const channelId = message.channel.id;
+            const channelData = channels.get(channelId);
+            if (channelData?.birdPresent && channelData.currentBird?.name.toLowerCase() === message.content.toLowerCase()) {
+                achHandler.grantAchievement(message.author.id, 34, message);
             }
         }
 
 
         if (message.content.toLowerCase() === 'bird') {
             catchingFuncion(message); // remains here
+        } else if (message.content.toLowerCase().includes('bird')) {
+            message.react(emojis.bird);
+            const userId = message.author.id;
+            const achievementGranted = achHandler.grantAchievement(userId, 1, message);
         }
     }
 };
 
+function hexToInt(hex) {
+    return parseInt(hex.replace('#', ''), 16);
+}
+
 async function catchingFuncion(message) {
+    if (message.author.bot) return;
     const channels = await loadChannels(message.guild.id);
     const inventories = await loadInventories(message.author.id);
 
@@ -58,6 +92,9 @@ async function catchingFuncion(message) {
     const channelData = channels.get(channelId);
 
     if (!channelData) {
+        message.react(emojis.bird);
+        const userId = message.author.id;
+        const achievementGranted = achHandler.grantAchievement(userId, 1, message);
         return;
     }
 
@@ -69,6 +106,7 @@ async function catchingFuncion(message) {
     const birdsData = await loadJsonFile("./birds.json");
     const user = message.author;
     let caughtBirds = [];
+    let birdcolor = '#fb5f44';
 
     if (channelData.birds && Array.isArray(channelData.birds) && channelData.birds.length > 0) {
         caughtBirds = [...channelData.birds];
@@ -113,19 +151,25 @@ async function catchingFuncion(message) {
 
     inventories.set("bird", inventory);
     await saveInventories(user.id, inventories);
-
+    let catchmoji = emojis.catch
     const caughtDescriptions = caughtBirds.map(b => `${b.emoji} ${b.name}`).join(' and ');
     let countsText = caughtBirds.map(b => ithinkieatsandsometimes(b,inventory)).join('\n');
     let descFormat = `${user.username} has caught ${caughtDescriptions}!!\ncatching took ${formatCatchTime(catchTime)}!!\n`
+    const b = caughtBirds.at(0)
+    if (typeof b.color !== "undefined")
+      birdcolor = b.color
+    if (typeof b.class !== "undefined")
+      if (b.class === "uncommon") {catchmoji = emojis.catchuc}
+      if (b.class === "rare") {catchmoji = emojis.catchra}
+      if (b.class === "epic") {catchmoji = emojis.catchep}
     if (caughtBirds.length == 1) {
-      const b = caughtBirds.at(0)
       if (typeof b.catchmsg !== 'undefined')
         descFormat = `${eval(b.catchmsg)}`
     }
 
     const caughtEmbed = {
       description: `${descFormat}${countsText}`,
-      color: 0xfb5f44
+      color: hexToInt(birdcolor)
     };
 
     try {await message.channel.send({ embeds: [caughtEmbed] });} catch(err) {try{await message.channel.send({ embeds: [caughtEmbed] });} catch(err) {console.log(`failed to send catch message twice, ${err}`)}}
@@ -141,7 +185,18 @@ async function catchingFuncion(message) {
         return Date.now() + (Math.random() * (maxMs - minMs)) + minMs;
     }
 
-    message.react(emojis.catch).catch(err => console.error("Failed to add reaction:", err));
+    message.react(catchmoji).catch(err => console.error("Failed to add reaction:", err));
+
+    if (message.attachments.size > 0) {
+      achHandler.grantAchievement(userId, 35, message);
+    }
+    if (caughtBirds.length == 2) {
+      achHandler.grantAchievement(userId, 38, message);
+        const bsnames = caughtBirds.map(bird => bird.name);
+        if (bsnames.includes("Good bird") && bsnames.includes("Evil bird")) {
+          achHandler.grantAchievement(userId, 39, message);
+        }
+    }
 }
 
 function ithinkieatsandsometimes(b,inventory) {
