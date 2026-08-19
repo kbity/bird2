@@ -6,45 +6,81 @@ const achHandler = new AchievementHandler();
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('say')
-		.setDescription('Repeats a message in the channel.')
+		.setDescription('Hello I am a Bird')
 		.addStringOption(option =>
 			option.setName('message')
-				.setDescription('The message to repeat.')
-				.setRequired(true)),
+				.setDescription('What to say')
+				.setRequired(true))
+		.addStringOption(option =>
+			option.setName('replyid')
+				.setDescription('Message ID to reply to')
+				.setRequired(false))
+		.addBooleanOption(option =>
+			option.setName('replyping')
+				.setDescription('Whether to ping the user being replied to')
+				.setRequired(false))
+		.addAttachmentOption(option =>
+			option.setName('attachment')
+				.setDescription('Upload a file to attach')
+				.setRequired(false)),
+
 	async execute(interaction) {
 		const message = interaction.options.getString('message');
+		const replyId = interaction.options.getString('replyid');
+		const replyPing = interaction.options.getBoolean('replyping') ?? false;
+        const attachment = interaction.options.getAttachment('attachment');
 		const member = interaction.member;
+
 		const user = interaction.user;
         if (message.startsWith("bird!gift")){
             await interaction.reply("Don't you know that Property is Theft? Now you're under arrest, 'cause I got nothing left.")
 		    const userId = interaction.user.id;
 		    const achievementGranted = achHandler.grantAchievement(userId, 26, interaction);
             return}
-		// Check if the command is being used in a DM
+
+		// If in DMs, just send the message
 		if (!interaction.guild) {
-			// If in DMs, allow the command without any permission check
-			await interaction.reply({ content: `You said: ${message}`, ephemeral: true });
-
-			// Ensure interaction.channel exists before sending the message
+			await interaction.reply({ content: 'Message sent.', ephemeral: true });
 			await interaction.user.send(message);
-		} else {
-			// In a guild, check if the user is whitelisted or has Administrator permission
-			if (
-				config.sayWhitelist.includes(user.id) ||
-				member.permissions.has(PermissionsBitField.Flags.Administrator)
-			) {
-				await interaction.reply({ content: `You said: ${message}`, ephemeral: true });
+			return;
+		}
 
-				// Send the message in the channel
-				await interaction.channel.send(message);
-			} else {
-				// User doesn't have permission
-				await interaction.reply({
-					content: 'You do not have permission to use this command.',
-					ephemeral: true,
-				});
+		// Check whitelist
+        if (!(config.sayWhitelist.includes(user.id) || member.permissions.has(PermissionsBitField.Flags.Administrator)))
+            {
+		    	await interaction.reply({ content: 'not allowed', ephemeral: true });
+		    	return;
+		    }
+
+		await interaction.deferReply({ ephemeral: true });
+
+		let sendPayload = { content: message };
+
+		if (attachment) {
+			sendPayload.files = [attachment];
+		}
+
+		// Try to reply to a specific message if given
+		if (replyId) {
+			try {
+				const targetMsg = await interaction.channel.messages.fetch(replyId);
+				sendPayload = {
+					...sendPayload,
+					reply: {
+						messageReference: targetMsg.id,
+						failIfNotExists: false,
+					},
+					allowedMentions: {
+						repliedUser: replyPing,
+					},
+				};
+			} catch (err) {
+				console.warn(`Failed to fetch reply message ${replyId}:`, err);
 			}
 		}
+
+		await interaction.channel.send(sendPayload);
+		await interaction.editReply({ content: 'Message sent successfully.' });
 	},
 };
 

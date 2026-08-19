@@ -21,6 +21,7 @@ Thanks to:
 **Robert Donner & Curt Johnson (Microsoft)** – for minesweeper and its assets
 **Icoeye** – for progressbar95
 **Natalie** – for helping me get the bot verified
+*everyone who submitted ideas inside of the server*
 And thanks to *You* for using bird!
 oh and [join the discord](https://discord.gg/rkH6R7avx7)`)
 	.setTimestamp()

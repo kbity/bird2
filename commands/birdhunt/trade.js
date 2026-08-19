@@ -70,6 +70,7 @@ module.exports = {
             }).filter(item => item !== null);
         };
 
+
         const sent = parseItems(sentItems);
         const received = parseItems(receiveItems);
 

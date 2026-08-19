@@ -70,5 +70,6 @@ module.exports = {
         achHandler.grantAchievement(senderId, 32, interaction);
         
     },
+    userApp: true, // Flag to enable adding user app mode
 };
 

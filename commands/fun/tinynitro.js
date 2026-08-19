@@ -1,4 +1,6 @@
 const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, EmbedBuilder } = require('discord.js');
+const AchievementHandler = require('../../achievementHandler');
+const achHandler = new AchievementHandler();
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -42,13 +44,14 @@ module.exports = {
 
         // Create a collector for button interactions
         const filter = i => i.customId === 'sendDMButton' && i.user.id === interaction.user.id;
-        const collector = interaction.channel.createMessageComponentCollector({ filter, time: 300000 }); // Adjust the time as needed
+        const collector = interaction.channel.createMessageComponentCollector({ filter, time: 600000 }); // Adjust the time as needed
 
         collector.on('collect', async (buttonInteraction) => {
             // DM the user who clicked the button with the provided message or default link
             try {
                 await buttonInteraction.deferUpdate();
                 await buttonInteraction.user.send(messageToSend);
+		        const achievementGranted = achHandler.grantAchievement(interaction.user.id, 42, interaction);
 
                 // Disable the button after it's used
                 row.components[0].setDisabled(true);

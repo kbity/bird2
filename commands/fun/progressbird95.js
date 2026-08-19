@@ -6,6 +6,72 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const config = require('../../config.json');
 const AchievementHandler = require('../../achievementHandler');
 const achHandler = new AchievementHandler();
+const { loadInventories, saveInventories } = require('../../birdfslib.js');
+
+function calculateScore(bar, config) {
+    const blue = config.emojis.blue;
+    const orange = config.emojis.orange;
+
+    const barStr = bar.map(s => s === blue ? "#" : s === orange ? "%" : "?").join("");
+
+    const totalSegments = bar.length;
+    const blueCount = bar.filter(s => s === blue).length;
+    const orangeCount = bar.filter(s => s === orange).length;
+
+    let score = blueCount * 10; // +10 per correct (blue)
+    let patternLabel = null;
+
+    // Pattern definitions with labels
+    const patterns = {
+        "yin-yang":  "##%##%%#%%",
+        "yin-yang":  "%%#%%##%##",
+        "zebra":     "%#%#%#%#%#",
+        "zebra":     "#%#%#%#%#%",
+        "tube":      "%########%",
+        "anti-tube": "#%%%%%%%%#",
+        "stripes":   "###%##%###",
+        "stripes":   "%%%#%%#%%%"
+    };
+
+    const patternEntries = Object.entries(patterns);
+
+    // Check for pattern match
+    for (const [label, pattern] of patternEntries) {
+        if (barStr === pattern) {
+            patternLabel = label;
+        }
+    }
+
+    // Special cases
+    const allOrange = orangeCount === totalSegments;
+    const allBlue = blueCount === totalSegments;
+    const isNinety = barStr === "#########%";
+
+    // Pattern multipliers/bonuses
+    if (patternLabel && patternLabel !== "90%") {
+        score *= 3;
+    }
+
+    if (allOrange) {
+        score += 450;
+        patternLabel = "Non-conformist";
+    }
+
+    if (allBlue) {
+        score *= 1.5;
+        patternLabel = "Perfectionist";
+    }
+
+    if (isNinety) {
+        score *= 1.5;
+        patternLabel = "90%";
+    }
+
+    return {
+        score: Math.round(score),
+        pattern: patternLabel
+    };
+}
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -28,11 +94,11 @@ const manageSegmentList = async () => {
         ...Array(25).fill(config.emojis.blue),       // Blue - 25%
         ...Array(18).fill(config.emojis.orange),     // Orange - 18%
         ...Array(13).fill(config.emojis.red),        // Red - 13%
-        ...Array(13).fill(config.emojis.rand),          // Random - 13%
-        ...Array(12).fill(config.emojis.pink),     // Pink - 12%
-        ...Array(12).fill(config.emojis.pbgray),// Grey - 12%
+        ...Array(13).fill(config.emojis.rand),       // Random - 13%
+        ...Array(12).fill(config.emojis.pink),       // Pink - 12%
+        ...Array(12).fill(config.emojis.pbgray),     // Grey - 12%
         ...Array(10).fill(config.emojis.lblu),       // Light Blue - 10%
-        ...Array(1).fill(config.emojis.gree)        // Green - 1%
+        ...Array(1).fill(config.emojis.gree)         // Green - 1%
     ];
 
     // Select a new segment based on the weighted probabilities
@@ -43,7 +109,7 @@ const manageSegmentList = async () => {
     const updatedGameEmbed = new EmbedBuilder()
         .setColor(0x0099FF)
         .setTitle('Progressbird95')
-        .setDescription(createGameMessage('continue')); // Game continues
+        .setDescription(await createGameMessage('continue')); // Game continues
     
     await interaction.editReply({ embeds: [updatedGameEmbed] });
 };
@@ -101,7 +167,7 @@ const manageSegmentList = async () => {
         }
 
         // Function to create the game message
-        function createGameMessage(gameState) {
+        async function createGameMessage(gameState) {
             const gameBar = `[${bar.join('')}]`;
             let gameMessage;
 
@@ -110,10 +176,30 @@ const manageSegmentList = async () => {
                 const corruptSegments = bar.filter(segment => segment === config.emojis.orange).length;
                 const normalPercentage = Math.round((normalSegments / bar.length) * 100);
                 const corruptPercentage = Math.round((corruptSegments / bar.length) * 100);
-                gameMessage = `Game Over!\n${gameBar}\nNormal: **${normalPercentage}%**\nCorrupt: **${corruptPercentage}%**`;
-		const userId = interaction.user.id;
-		const achievementGranted = achHandler.grantAchievement(userId, 3, interaction);
+
+                const result = calculateScore(bar, config);
+                const finalScore = result.score;
+                const patternFound = result.pattern;
+
+                gameMessage =
+                    `Game Over!\n${gameBar}\n` +
+                    `Normal: **${normalPercentage}%**\n` +
+                    `Corrupt: **${corruptPercentage}%**\n` +
+                    `\n**Score: ${finalScore} (+${Math.floor(finalScore/2.5)} bird moneys)**`+
+                    (patternFound ? `\n**${patternFound}**` : "");
+
+                const userId = interaction.user.id;
+                const achievementGranted = achHandler.grantAchievement(userId, 3, interaction);
+                const inventories = await loadInventories(userId);
+                if (!inventories.has("item")) {
+                  inventories.set("item", {});
+                  await saveInventories(userId, inventories);
+               }
+                const userInventory2 = inventories.get("item");
+                userInventory2["bird_money"] = (userInventory2["bird_money"] || 0) + Math.floor(finalScore/2.5);
+                await saveInventories(userId, inventories);
             }
+
             else if (gameState === 'dataLost') {
                 gameMessage = `Data Lost!\n${gameBar} ERR%\n`;
             } else {
@@ -130,12 +216,20 @@ const manageSegmentList = async () => {
         const gameEmbed = new EmbedBuilder()
             .setColor(0x0099FF)
             .setTitle('Progressbird95')
-            .setDescription(createGameMessage('continue', bar)); // Game is not over yet
+            .setDescription(await createGameMessage('continue', bar)); // Game is not over yet
         
         const initialMessage = await interaction.reply({ embeds: [gameEmbed], fetchReply: true });
 
-        // Set an interval to manage segments and update the game message
-        const segmentInterval = setInterval(manageSegmentList, 5000);
+        function scheduleNextSegment() {
+            const delay = Math.floor(Math.random() * 4000) + 2000; // 2–6 sec
+
+            segmentTimeout = setTimeout(async () => {
+                await manageSegmentList();
+                scheduleNextSegment();
+            }, delay);
+        }
+
+        scheduleNextSegment();
 
         // Listen for user input
         const filter = m => m.author.id === commandUserId && !isNaN(m.content) && m.content >= 1 && m.content <= segmentList.length;
@@ -151,15 +245,15 @@ const manageSegmentList = async () => {
 
                 if (gameState === 'gameOver' || gameState === 'dataLost') {
                     // End the game if the bar is full or data is lost
-                    clearInterval(segmentInterval);
+                    clearTimeout(segmentTimeout);
                     collector.stop();
-                    await initialMessage.edit({ embeds: [new EmbedBuilder().setColor(0x0099FF).setTitle('Progressbird95').setDescription(createGameMessage(gameState, bar))] });
+                    await initialMessage.edit({ embeds: [new EmbedBuilder().setColor(0x0099FF).setTitle('Progressbird95').setDescription(await createGameMessage(gameState, bar))] });
                 } else {
                     // Update the game message with the new bar state and available segments
                     const updatedGameEmbed = new EmbedBuilder()
                         .setColor(0x0099FF)
                         .setTitle('Progressbird95')
-                        .setDescription(createGameMessage('continue', bar)); // Game continues
+                        .setDescription(await createGameMessage('continue', bar)); // Game continues
                     
                     await interaction.editReply({ embeds: [updatedGameEmbed] });
                 }
@@ -167,7 +261,7 @@ const manageSegmentList = async () => {
         });
 
         collector.on('end', () => {
-            clearInterval(segmentInterval);
+            clearTimeout(segmentTimeout);
         });
     },
 };

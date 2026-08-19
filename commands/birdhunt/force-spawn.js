@@ -24,7 +24,7 @@ module.exports = {
         const channels = await loadChannels(interaction.guild.id);
         const channelId = interaction.channel.id;
         if (!evalWhitelist.includes(interaction.user.id)) {
-            await interaction.reply("disable qweyu mode");
+            await interaction.reply("⚠️ you are not allowed to use this command due to group policy");
             return
         }
         if (channels.get(channelId) == undefined) {

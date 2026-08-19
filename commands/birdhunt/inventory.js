@@ -121,10 +121,9 @@ module.exports = {
         await interaction.reply({ embeds: [inventoryEmbed] });
 
         // Check for achievements
-        const allBirdTypes = Object.keys(birdData);
-        const hasAllBirds = allBirdTypes
-            .filter(birdType => birdType !== "unknown bird")
-            .every(birdType => userInventory[birdType] > 0);
+        const allBirdTypes = Object.keys(birdData).filter(birdType => birdData[birdType].type === "bird");
+        const hasAllBirds = allBirdTypes.every(birdType => userInventory[birdType] > 0);
+
         if (targetUser.username == interaction.user.username && inventoryType == "bird") {
             if (hasAllBirds) {
                 setTimeout(() => {achHandler.grantAchievement(interaction.user.id, 13, interaction);}, 2000);

@@ -66,7 +66,7 @@ module.exports = {
 
         // Check if the sender has enough birds
         if (!senderInventory[birdType] || senderInventory[birdType] < quantity) {
-            await interaction.reply({ content: `You don't have ${quantity} ${birdType}(s) to gift.`, ephemeral: true });
+            await interaction.reply({ content: `you don't have ${quantity} ${birdType}s to gift, youre pore :sob:`, ephemeral: true });
             return;
         }
 
@@ -105,5 +105,6 @@ module.exports = {
             }
         }
     },
+    userApp: true, // Flag to enable adding user app mode
 };
 

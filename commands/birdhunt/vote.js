@@ -1,11 +1,11 @@
 const { SlashCommandBuilder } = require('discord.js');
-//const { Api } = require('@top-gg/sdk'); --uncomment to enable, requires top.gg sdk and top.gg token--
+const { Api } = require('@top-gg/sdk');
 const { emojis, tggtoken } = require('../../config.json');
 const { loadInventories, saveInventories, birdsFilePath } = require('../../birdfslib.js');
 const birdData = require('../../data.json');
 
 // Create Top.gg API client
-//const api = new Api(tggtoken); --uncomment to enable, requires top.gg sdk and top.gg token--
+const api = new Api(tggtoken);
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -13,8 +13,7 @@ module.exports = {
     .setDescription('Vote and Claim your reward after voting on top.gg'),
   async execute(interaction) {
     if (tggtoken === "None") {
-        await interaction.reply(`Voting Disabled.\n[Vote here if you'd like'](https://top.gg/bot/1118256931040149626/vote>)`);
-        return
+        await interaction.reply(`[Vote here if you'd like'](https://top.gg/bot/1118256931040149626/vote>)`);
     }
     await interaction.deferReply()
     const userId = interaction.user.id;
@@ -24,6 +23,10 @@ module.exports = {
       inventories.set("bird", {});
       await saveInventories(userId, inventories);
     }
+    if (!inventories.has("item")) {
+      inventories.set("item", {});
+      await saveInventories(userId, inventories);
+    }
 
     if (!inventories.has("lastclaim")) {
       inventories.set("lastclaim", 0);
@@ -31,9 +34,10 @@ module.exports = {
     }
 
     const userInventory = inventories.get("bird");
+    const userInventory2 = inventories.get("item");
 
-    if (Date.now() - inventories.get("lastclaim") < 12 * 60 * 60 * 1000) {
-        await interaction.followUp(`${emojis.fail} You have already claimed your birds! you can vote and claim again at <t:${Math.round(((inventories.get("lastclaim") / 1000) + 12 * 60 * 60))}:f>`);
+    if (Date.now() - inventories.get("lastclaim") < (12 * 60 * 60 * 1000) - 45000) {
+        await interaction.followUp(`${emojis.fail} You have already claimed your birds! you can vote and claim again at <t:${Math.round(((inventories.get("lastclaim") / 1000) + (12 * 60 * 60)))}:f>`);
         return
     }
 
@@ -58,20 +62,19 @@ module.exports = {
         let typesAdded = 0;
 
         while (remainingValue > 0 && typesAdded < 5) {
-          // Pick a random bird from bird data
-          const amount = Math.floor(Math.random() * 5) + 1;  // Add 1-5 birds
-          const birds = Object.entries(birdData).filter(([birdName, birdInfo]) =>
-              birdInfo.type === "bird" && birdInfo.value * amount <= remainingValue
-          );
+          const amount = Math.floor(Math.random() * 5) + 1;
 
-          if (birds.length === 0) break;  // No birds can be added if none fit the value range
+          const birds = Object.entries(birdData)
+            .filter(([birdName, birdInfo]) => birdInfo.type === "bird" && birdInfo.value * amount <= remainingValue)
+            .sort((a, b) => b[1].value - a[1].value)
+            .slice(0, 5);
+
+          if (birds.length === 0) break;
 
           const [birdName, birdInfo] = birds[Math.floor(Math.random() * birds.length)];
 
-          // Determine how many of this bird to add
           remainingValue -= birdInfo.value * amount;
 
-          // Add the bird to the addedBirds object
           addedBirds[birdName] = (addedBirds[birdName] || 0) + amount;
           typesAdded += 1;
         }
@@ -81,6 +84,7 @@ module.exports = {
           userInventory[bird] = (userInventory[bird] || 0) + amount;
         }
         inventories.set("lastclaim", Date.now());
+        userInventory2["bird_money"] = (userInventory2["bird_money"] || 0) + Math.floor(remainingValue);
 
         await saveInventories(userId, inventories);
 
@@ -89,7 +93,19 @@ module.exports = {
           .map(([bird, amount]) => `* **${amount}** ${birdData[bird].emoji} ${bird}s`)
           .join('\n');
 
-        await interaction.followUp(`${emojis.catch} Thank you for voting! You’ve rolled a value of ${randomValue} and have received:\n${birdsList}`);
+        await interaction.followUp(`${emojis.catch} Thank you for voting! You’ve rolled a value of ${randomValue} and have received:\n${birdsList}\n+${Math.floor(remainingValue)} bird moneys`);
+
+        if (!inventories.has("reminders")) {
+          inventories.set("reminders", {});
+          await saveInventories(interaction.user.id, inventories);
+        }
+        const userreminders = inventories.get("reminders");
+        userreminders[interaction.id] = {
+            reason: "[Vote here for free birds](https://top.gg/bot/1118256931040149626/vote>)",
+            time: Date.now() + (12 * 60 * 60 * 1000)
+        };
+        await saveInventories(interaction.user.id, inventories);
+
       } else {
         await interaction.followUp(`[Vote here for free birds](https://top.gg/bot/1118256931040149626/vote>)`);
       }

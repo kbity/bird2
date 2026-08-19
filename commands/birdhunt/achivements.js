@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 const { EmbedBuilder } = require('discord.js');
 const fs = require('fs');
 const { fileExists } = require('../../birdfslib.js');
+const { emojis } = require('../../config.json');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -49,18 +50,20 @@ module.exports = {
     const totalAchievements = achievements.length;
     const obtainedCount = userAchievements.length;
 
+    const achievementsInCategory = achievements.filter(a => a.catagory === catagory);
+
     const embed = new EmbedBuilder()
-      .setTitle(`${targetUser.username}'s Achievements (${obtainedCount}/${totalAchievements})`)
-      .setDescription(`Viewing Catagory: ${catagory}`)
+      .setTitle(`${targetUser.username}'s Achievements in ${catagory} (${obtainedCount}/${totalAchievements})`)
       .setColor(0xfb5f44);
 
-    userAchievements.forEach(achId => {
-      const ach = achievements.find(a => a.id === achId);
-      if (ach && ach.catagory == catagory ){
-        embed.addFields({ name: `${ach.icon2} ${ach.name}`, value: ach.description, inline: true });
-      }
+    achievementsInCategory.forEach(ach => {
+      const obtained = userAchievements.includes(ach.id);
+     embed.addFields({
+        name: `${obtained ? ach.icon2 : emojis.unknown_ach} ${ach.name}`,  // Mark obtained or not
+        value: obtained ? ach.description : "[Locked]",
+        inline: true,
+      });
     });
-
     await interaction.reply({ embeds: [embed] });
   },
 };
