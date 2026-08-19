@@ -1,3 +1,6 @@
+# notice
+bird 2.x will no longer be maintained or updated. please use bird 3.x when it is available.
+
 # setup instructions
 
 1. run `npm install` to download needed libraries and packages
